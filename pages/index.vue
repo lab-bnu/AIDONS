@@ -5,7 +5,6 @@
       <h1 class="text-primary">AIDONS</h1>
       <h2 class="tracking-wider opacity-80 italic">Aide au signalement par l'IA</h2>
 
-
       <!--  input opening the camera on mobile -->
       <!-- <div class=" ">
         <input type="file" accept="image/*" capture="camera" @click="handleInput"
@@ -21,10 +20,7 @@
         <p class="text-primary">{{ decodedText }}</p>
       </div>
 
-      <div>
-        <p>Placer un code barre devant la caméra Ou choisir un fichier dans la gallerie</p>
-      </div>
-
+      <p>Placer un code barre devant la caméra Ou choisir un fichier dans la gallerie</p>
       <ImageBarcodeReader @decode="onDecode" @error="onError" class="text-primary-700"></ImageBarcodeReader>
       <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded"></StreamBarcodeReader>
     </div>
