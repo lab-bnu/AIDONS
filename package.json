@@ -25,6 +25,7 @@
     "@nuxt/image": "1.1.0",
     "@nuxt/ui": "2.11.1",
     "postcss-custom-properties": "^13.3.6",
+    "vue-barcode-reader": "^1.0.3",
     "vue-use-fixed-header": "^2.0.0"
   }
 }
