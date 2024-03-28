@@ -41,12 +41,14 @@
 <script setup>
 import { StreamBarcodeReader, ImageBarcodeReader } from "vue-barcode-reader";
 // const decodedText = ref("9780545010221");
-const decodedText = ref("9783161484100");
+const decodedText = ref("");
+// const decodedText = ref("9783161484100");
 const error = ref('');
 
 // openLibrary API
 const openLibUrl = 'https://openlibrary.org/api/books?bibkeys=ISBN:';
-const { data: openLibData, error: openLiberror } = await useFetch(openLibUrl + decodedText.value + '&format=json&jscmd=data');
+const url = computed(() => openLibUrl + decodedText.value + '&format=json&jscmd=data');
+const { data: openLibData, error: openLiberror } = await useFetch(url);
 
 // API for cover image
 const coverImageUrl = 'https://covers.openlibrary.org/b/isbn/';
