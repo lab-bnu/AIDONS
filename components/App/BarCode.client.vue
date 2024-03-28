@@ -24,14 +24,15 @@
     <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded"></StreamBarcodeReader>
 
     <div>
-      <p>Résultat Open Library</p>
-      <pre>{{ openLibData }}</pre>
+      <p class="text-primary"> Image de couverture</p>
+      <img :src="coverImage" alt="cover image" />
     </div>
 
     <div>
-      <p>Image de couverture</p>
-      <img :src="coverImageData" alt="cover image" />
+      <p class="text-primary">Résultat Open Library</p>
+      <pre>{{ openLibData }}</pre>
     </div>
+
   </div>
 
 
@@ -39,7 +40,8 @@
 
 <script setup>
 import { StreamBarcodeReader, ImageBarcodeReader } from "vue-barcode-reader";
-const decodedText = ref("______");
+// const decodedText = ref("9780545010221");
+const decodedText = ref("9783161484100");
 const error = ref('');
 
 // openLibrary API
@@ -49,8 +51,6 @@ const { data: openLibData, error: openLiberror } = await useFetch(openLibUrl + d
 // API for cover image
 const coverImageUrl = 'https://covers.openlibrary.org/b/isbn/';
 const coverImage = coverImageUrl + decodedText.value + '-M.jpg';
-const { data: coverImageData, error: coverImageError } = await useFetch(coverImage);
-
 
 const onDecode = (decodedValue) => {
   decodedText.value = decodedValue
