@@ -35,8 +35,7 @@
 
 <div>
 Liens
-<a :href ='"
-https://isbndb.com/book/"+decodedText' >isbndb</a>
+<a :href ='"https://isbndb.com/book/"+decodedText' >isbndb</a>
 <a :href ='"https://www.sudoc.fr/services/isbn2ppn/"+decodedText' >sudoc - ppn</a>
 </div>
 
