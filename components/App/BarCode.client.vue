@@ -33,6 +33,10 @@
       <pre>{{ openLibData }}</pre>
     </div>
 
+<div>
+<a :href ='"https://www.sudoc.fr/services/isbn2ppn/"+decodedText' >sudoc - ppn</a>
+</div>
+
   </div>
 
 
