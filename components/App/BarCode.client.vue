@@ -24,6 +24,20 @@
     <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded"></StreamBarcodeReader>
 
     <div>
+      <span class="text-primary">Liens</span>
+      <ul class="pl-3 [&>*:hover]:text-primary">
+        <li><a :href='"https://isbndb.com/book/" + decodedText'>isbndb</a></li>
+        <li><a :href='"https://www.sudoc.fr/services/isbn2ppn/" + decodedText'>sudoc - ppn</a></li>
+        <li><a :href="'https://www.google.com/search?q=' + decodedText">google</a></li>
+        <li><a :href='"https://www.amazon.fr/s?k=" + decodedText'>amazon</a></li>
+        <li><a :href='"https://www.fnac.com/SearchResult/ResultList.aspx?SCat=0%211&Search=" + decodedText'>fnac</a></li>
+        <li><a :href='"https://www.livre-rare-book.com/search/current.seam?isbn=" + decodedText'>livre rare book</a></li>
+        <li><a :href='"https://www.abebooks.fr/servlet/SearchResults?isbn=" + decodedText'>abebooks</a></li>
+        <li><a :href='"https://www.abebooks.fr/servlet/SearchResults?isbn=" + decodedText'>abebooks</a></li>
+      </ul>
+    </div>
+
+    <div>
       <p class="text-primary"> Image de couverture</p>
       <img :src="coverImage" alt="cover image" />
     </div>
@@ -33,11 +47,6 @@
       <pre>{{ openLibData }}</pre>
     </div>
 
-<div>
-Liens
-<a :href ='"https://isbndb.com/book/"+decodedText' >isbndb</a>
-<a :href ='"https://www.sudoc.fr/services/isbn2ppn/"+decodedText' >sudoc - ppn</a>
-</div>
 
   </div>
 
