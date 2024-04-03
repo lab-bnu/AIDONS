@@ -19,10 +19,8 @@
       <span v-for="code in barCodeExamples" :key="code" @click="decodedText = code" 
       class="cursor-pointer text-primary-700 hover:text-primary-500 m-2">{{ code }}</span>
     </p>
-    <div class="flex gap-3 text-lg">
-      <label for="code-barre">Code barre</label>
-      <UInput v-model="decodedText" placeholder="Code barre" id="code-barre" icon = "i-lucide-barcode" />
-    </div>
+
+    <UInput v-model="decodedText" placeholder="Code barre" icon = "i-lucide-barcode" />
 
     <p>Placer un code barre devant la caméra Ou choisir un fichier dans la gallerie</p>
     <ImageBarcodeReader @decode="onDecode" @error="onError" class="text-primary-700"></ImageBarcodeReader>
@@ -93,6 +91,8 @@ const onError = (error) => {
 }
 
 const onLoaded = () => {
+
+   
   console.log('Barcode reader loaded')
 }
 
