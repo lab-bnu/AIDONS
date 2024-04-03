@@ -21,7 +21,7 @@
     </p>
     <div class="flex gap-3 text-lg">
       <p class="">Code barre décodé</p>
-      <p class="text-primary">{{ decodedText || 'Aucun code barre trouvé'}}</p>
+      <UInput v-model="decodedText" placeholder="Code barre" />
     </div>
 
     <p>Placer un code barre devant la caméra Ou choisir un fichier dans la gallerie</p>
@@ -30,8 +30,9 @@
 
     <div>
       <span class="text-primary">Liens</span>
-      <ul class="pl-3 [&>*:hover]:text-primary">
-        <li v-for="(value, key) in links" :key="key">
+      <ul class="pl-3 [&>*:hover]:text-primary transition-all" :class="{'opacity-50' : !decodedText}">
+        <li v-for="(value, key) in links" :key="key" class="flex items-center-center gap-2 m-2">
+          <UAvatar :src="'https://logo.clearbit.com/' + getDomain(value)" class="w-6 h-6" size = "xs" :alt = "'logo ' + value"/>
           <a :href="value + decodedText" target="_blank">{{ key }}</a>
         </li>
       </ul>
@@ -68,7 +69,7 @@ const coverImage = coverImageUrl + decodedText.value + '-M.jpg';
 
 const barCodeExamples = [
   '9780545010221',
-  '9783161484100',
+  // '9783161484100',
 ]
 
 const links = {
@@ -80,6 +81,8 @@ const links = {
   livreRareBook: 'https://www.livre-rare-book.com/search/current.seam?isbn=',
   abebooks: 'https://www.abebooks.fr/servlet/SearchResults?isbn='
 }
+
+const getDomain = (url) => new URL(url).hostname
 
 const onDecode = (decodedValue) => {
   decodedText.value = decodedValue
