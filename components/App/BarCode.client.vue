@@ -10,9 +10,7 @@
           class="bg-primary/50 text-white p-2 rounded-lg cursor-pointer" />
       </div> -->
 
-    <div v-if="error">
-      <p class="text-red-500">{{ error }}</p>
-    </div>
+    <p v-if="error" class="text-red-500">{{ error }}</p>
 
     <p class="text-sm text-gray-500">
       Essayer avec un exemple : 
@@ -20,7 +18,7 @@
       class="cursor-pointer text-primary-700 hover:text-primary-500 m-2">{{ code }}</span>
     </p>
 
-    <UInput v-model="decodedText" placeholder="Code barre" icon = "i-lucide-barcode" />
+    <UInput v-model="decodedText" placeholder="Code barre" icon = "i-lucide-barcode" size = "xl" class="[&>*]:tracking-widest" />
 
     <p>Placer un code barre devant la caméra Ou choisir un fichier dans la gallerie</p>
     <ImageBarcodeReader @decode="onDecode" @error="onError" class="text-primary-700"></ImageBarcodeReader>
@@ -41,11 +39,19 @@
       <img :src="coverImage" alt="cover image" />
     </div>
 
-    <div>
+    <div v-if="openLibData">
       <p class="text-primary">Résultat Open Library</p>
       <pre class="max-w-[100vw] overflow-scroll">{{ openLibData }}</pre>
     </div>
+<!-- 
+    <div v-if="isbndbData?.length">
+      <p class="text-primary">Résultat ISBN DB</p>
+      <pre class="max-w-[100vw] overflow-scroll">{{ isbndbData }}</pre>
+    </div>
 
+    <div v-if="isbnDbError">
+      <p class="text-red-500">{{ isbnDbError }}</p>
+    </div> -->
 
   </div>
 
@@ -55,20 +61,8 @@
 <script setup>
 import { StreamBarcodeReader, ImageBarcodeReader } from "vue-barcode-reader";
 const error = ref('');
-const decodedText = ref("");
-// openLibrary API
-const openLibUrl = 'https://openlibrary.org/api/books?bibkeys=ISBN:';
-const url = computed(() => openLibUrl + decodedText.value + '&format=json&jscmd=data');
-const { data: openLibData, error: openLiberror } = await useFetch(url);
-
-// API for cover image
-const coverImageUrl = 'https://covers.openlibrary.org/b/isbn/';
-const coverImage = coverImageUrl + decodedText.value + '-M.jpg';
-
-const barCodeExamples = [
-  '9780545010221',
-  // '9783161484100',
-]
+// const decodedText = ref("");
+const decodedText = ref("9780545010221");
 
 const links = {
   isbndb: 'https://isbndb.com/book/',
@@ -80,6 +74,21 @@ const links = {
   abebooks: 'https://www.abebooks.fr/servlet/SearchResults?isbn='
 }
 
+// openLibrary API
+const openLibUrl = 'https://openlibrary.org/api/books?bibkeys=ISBN:';
+const url = computed(() => openLibUrl + decodedText.value + '&format=json&jscmd=data');
+const { data: openLibData, error: openLiberror } = await useFetch(url);
+const {data : isbndbData, error: isbnDbError} = await useFetch(computed(() =>links.sudoc + decodedText.value));
+
+// API for cover image
+const coverImageUrl = 'https://covers.openlibrary.org/b/isbn/';
+const coverImage = coverImageUrl + decodedText.value + '-M.jpg';
+
+const barCodeExamples = [
+  '9780545010221',
+  // '9783161484100',
+]
+
 const getDomain = (url) => new URL(url).hostname
 
 const onDecode = (decodedValue) => {
@@ -90,13 +99,9 @@ const onError = (error) => {
   error.value = error
 }
 
-const onLoaded = () => {
-
-   
+const onLoaded = () => {   
   console.log('Barcode reader loaded')
 }
-
-
 
 const handleInput = () => {
   console.log('handleInput')
