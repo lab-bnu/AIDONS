@@ -36,12 +36,12 @@
 
     <div>
       <p class="text-primary"> Image de couverture</p>
-      <img :src="coverImage" alt="cover image" />
+      <img :src="coverImageUrl + decodedText + '-M.jpg'" alt="cover" />
     </div>
 
     <div v-if="openLibData">
       <p class="text-primary">Résultat Open Library</p>
-      <pre class="max-w-[100vw] overflow-scroll">{{ openLibData }}</pre>
+      <pre class="max-w-[100vw] overflow-x-scroll">{{ openLibData }}</pre>
     </div>
 <!-- 
     <div v-if="isbndbData?.length">
@@ -61,8 +61,8 @@
 <script setup>
 import { StreamBarcodeReader, ImageBarcodeReader } from "vue-barcode-reader";
 const error = ref('');
-// const decodedText = ref("");
-const decodedText = ref("9780545010221");
+const decodedText = ref("");
+// const decodedText = ref("9780545010221");
 
 const links = {
   isbndb: 'https://isbndb.com/book/',
@@ -82,7 +82,6 @@ const {data : isbndbData, error: isbnDbError} = await useFetch(computed(() =>lin
 
 // API for cover image
 const coverImageUrl = 'https://covers.openlibrary.org/b/isbn/';
-const coverImage = coverImageUrl + decodedText.value + '-M.jpg';
 
 const barCodeExamples = [
   '9780545010221',
