@@ -2,7 +2,7 @@
   <div class="space-y-5">
 
     <h1 class="text-primary">AIDONS</h1>
-    <h2 class="tracking-wider opacity-80 italic">Aide au signalement par l'IA</h2>
+    <h2 class="tracking-wider opacity-80 italic">Aide à l'instruction de documents par l'IA</h2>
 
     <!--  input opening the camera on mobile -->
     <!-- <div class=" ">
@@ -20,8 +20,8 @@
       class="cursor-pointer text-primary-700 hover:text-primary-500 m-2">{{ code }}</span>
     </p>
     <div class="flex gap-3 text-lg">
-      <p class="">Code barre décodé</p>
-      <UInput v-model="decodedText" placeholder="Code barre" />
+      <label for="code-barre">Code barre</label>
+      <UInput v-model="decodedText" placeholder="Code barre" id="code-barre" icon = "i-lucide-barcode" />
     </div>
 
     <p>Placer un code barre devant la caméra Ou choisir un fichier dans la gallerie</p>
@@ -45,7 +45,7 @@
 
     <div>
       <p class="text-primary">Résultat Open Library</p>
-      <pre>{{ openLibData }}</pre>
+      <pre class="max-w-[100vw] overflow-scroll">{{ openLibData }}</pre>
     </div>
 
 
