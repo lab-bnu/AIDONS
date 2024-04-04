@@ -24,6 +24,7 @@
     "@iconify-json/lucide": "1.1.145",
     "@nuxt/image": "1.1.0",
     "@nuxt/ui": "2.11.1",
+    "fast-xml-parser": "^4.3.6",
     "postcss-custom-properties": "^13.3.6",
     "vue-barcode-reader": "^1.0.3",
     "vue-use-fixed-header": "^2.0.0"
