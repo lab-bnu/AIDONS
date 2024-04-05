@@ -27,6 +27,8 @@
     "fast-xml-parser": "^4.3.6",
     "postcss-custom-properties": "^13.3.6",
     "vue-barcode-reader": "^1.0.3",
-    "vue-use-fixed-header": "^2.0.0"
+    "vue-use-fixed-header": "^2.0.0",
+    "@formkit/auto-animate": "^0.8.1"
+
   }
 }

@@ -8,7 +8,9 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/content",
     "@nuxthq/studio",
-    "@vueuse/nuxt"
+    "@vueuse/nuxt",
+   '@formkit/auto-animate/nuxt',
+
   ],
   ui: {
     icons: ["heroicons", "lucide"],

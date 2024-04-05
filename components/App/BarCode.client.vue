@@ -8,16 +8,10 @@
       <h2 class="tracking-wider opacity-80 italic">Aide à l'instruction de documents par l'IA</h2>
     </section>
 
-    <!-- toggle show history -->
-    <div class="flex items-center gap-2">
-      Historique
-      {{ history }}
-    </div>
-
     <p v-if="error" class="text-red-500">{{ error }}</p>
 
     <p class="text-sm text-gray-500 space-y-2">
-      Essayer avec un exemple :
+      Exemples :
       <span v-for="code in barCodeExamples" :key="code" @click="decodedText = code"
         class="cursor-pointer text-primary-700 hover:text-primary-500 m-2">{{ code }}</span>
 
@@ -27,14 +21,13 @@
         class="[&>*]:tracking-[3px]" />
     </p>
 
-    <!-- Recherche biblio.bnu et worldcat -->
     <p class="flex items-center gap-4 [&>*]:flex [&>*]:items-center [&>*]:gap-2">
       Voir sur
-      <!-- biblio.bnu -->
-      <a :href="links['biblio.bnu'] + decodedText" target="_blank"
+      <!-- Biblio.bnu -->
+      <a :href="links['Biblio.bnu'] + decodedText" target="_blank"
         class="text-primary transition-all duration-500 underline" :aria-disabled="!decodedText"
         :class="{ 'opacity-30': !decodedText }">
-        <UAvatar :src="getLogo(links['biblio.bnu'])" class="w-6 h-6" size="xs" :alt="'logo ' + links['biblio.bnu']" />
+        <UAvatar :src="getLogo(links['Biblio.bnu'])" class="w-6 h-6" size="xs" :alt="'logo ' + links['Biblio.bnu']" />
         Biblio.bnu
       </a>
       <!--  worldcat -->
@@ -53,10 +46,8 @@
       <UDivider label="Notice" />
       <div v-if="sudocNotice" class="bg-blue-500/10 p-4 mt-1 rounded-lg">
         <ul>
-          <li
-            v-for="field in ppn && sudocNotice?.record?.datafield?.filter(field => ['200', /*'034'*/].includes(field['@_tag']))"
-            :key="field">
-            <p v-for="subfield in field.subfield" :key="subfield">
+          <li v-for="field in tag200" :key="field">
+            <p v-for="subfield in field.subfield" :key="subfield" ref = "tag200">
               <span class="text-primary"> ✓ </span> {{ subfield['#text'] }}
             </p>
           </li>
@@ -69,7 +60,7 @@
     <div>
       <UDivider label="Bibliothèques où trouver le document" />
       <ul class="pl-3" :class="{ 'opacity-30': !decodedText }">
-        <li v-for="lib in bibsData?.library" :key="lib" class="m-2"
+        <li v-for="lib in bibsData" :key="lib" class="m-2"
           :class="{ 'bg-blue-500/10': lib.shortname === 'STRASBOURG-BNU' }">
           <!-- {{lib.rcr}} -->
           {{ lib.shortname }}
@@ -82,7 +73,7 @@
     <StreamBarcodeReader v-if="envProd" @decode="onDecode" @loaded="onLoaded" />
 
     <div>
-      <span class="text-primary">Tous les liens</span>
+      <span class="text-primary">Autres liens</span>
       <ul class="pl-3 [&>*:hover]:text-primary transition-all" :class="{ 'opacity-30': !decodedText }">
         <li v-for="(value, key) in links" :key="key" class="flex items-center-center gap-2 m-2">
           <UAvatar :src="getLogo(value)" class="w-6 h-6" size="xs" :alt="'logo ' + value" />
@@ -100,10 +91,7 @@
       <p class="text-primary">Résultat Open Library</p>
       <pre class="max-w-[100vw] overflow-x-scroll">{{ openLibData }}</pre>
     </div>
-
   </div>
-
-
 </template>
 
 <script setup>
@@ -113,19 +101,24 @@ import { useStorage } from '@vueuse/core';
 const xmlParser = new parser.XMLParser({ ignoreAttributes: false });
 const envProd = import.meta.env.PROD;
 
-
 const error = ref('');
 const decodedText = ref("");
-// const decodedText = ref("9780545010221");
+
+const barCodeExamples = [
+  '9780545010221',
+  '9780838911297'
+  // '9783161484100',
+]
 
 const links = {
-  "biblio.bnu": 'https://biblio.bnu.fr/opac/query/',
-  isbndb: 'https://isbndb.com/book/',
-  google: 'https://www.google.com/search?q=',
-  amazon: 'https://www.amazon.fr/s?k=',
-  fnac: 'https://www.fnac.com/SearchResult/ResultList.aspx?SCat=0%211&Search=',
-  livreRareBook: 'https://www.livre-rare-book.com/search/current.seam?isbn=',
-  abebooks: 'https://www.abebooks.fr/servlet/SearchResults?isbn='
+  "Biblio.bnu": 'https://biblio.bnu.fr/opac/query/',
+  Isbndb: 'https://isbndb.com/book/',
+  Google: 'https://www.google.com/search?q=',
+  "Librairie Kleber": 'https://www.librairie-kleber.com/listeliv.php?base=paper&mots_recherche=',
+  Amazon: 'https://www.amazon.fr/s?k=',
+  Fnac: 'https://www.fnac.com/SearchResult/ResultList.aspx?SCat=0%211&Search=',
+  LivreRareBook: 'https://www.livre-rare-book.com/search/current.seam?isbn=',
+  Abebooks: 'https://www.abebooks.fr/servlet/SearchResults?isbn='
 }
 
 // API for cover image
@@ -136,23 +129,14 @@ const openLibUrl = 'https://openlibrary.org/api/books?bibkeys=ISBN:';
 const url = computed(() => openLibUrl + decodedText.value + '&format=json&jscmd=data');
 const { data: openLibData, error: openLiberror } = await useFetch(url);
 
-// sudoc API - obtention de la notice bibliographique ppn à partir de l'ISBN
+// sudoc API - obtention de la notice Bibliographique ppn à partir de l'ISBN
 const header = { accept: 'application/json' };
+const parsePPN = data => JSON.parse(data)?.sudoc?.query?.result?.ppn ?? null;
 const isbnToPpn = computed(() => `https://www.sudoc.fr/services/isbn2ppn/${decodedText.value}?format=json`);
-const { data: sudocData, error: sudocError } = await useFetch(isbnToPpn, { headers: header, immediate: false});
+const { data: ppn, error: sudocError } = await useFetch(isbnToPpn, { headers: header, immediate: false, transform: parsePPN });
 
-const ppn = ref('');
-watch(sudocData, data => {
-  const jsonData = JSON.parse(data)
-  ppn.value = jsonData?.sudoc?.query?.result?.ppn
-})
 
-const history = useStorage('history', [])
 
-watch(ppn, newValue => {
-  if (newValue && !history.value.includes(newValue)) 
-    history.value.push(newValue)
-})
 
 // onMounted(() => {
 //   fetch('https://aidons-backend.vercel.app/fapi')
@@ -162,33 +146,37 @@ watch(ppn, newValue => {
 
 const sudocNoticeUrl = computed(() => ppn.value && `https://www.sudoc.fr/${ppn.value}.xml`);
 const { data: sudocNotice } = useFetch(sudocNoticeUrl, { transform: (data) => xmlParser.parse(data), immediate: false });
+const tag200 = computed(() => sudocNotice.value?.record?.datafield?.filter(field => field['@_tag'] === '200'))
 
 const bibsUrl = computed(() => ppn.value && `https://www.sudoc.fr/services/multiwhere/${ppn.value}?format=json`)
-const { data: bibsData, error: bibsError } = await useFetch(bibsUrl, { headers: header, transform: parseSudocResult, immediate: false });
+const { data: bibsData, error: bibsError } = await useFetch(bibsUrl, { headers: header, immediate: false, transform: parseSudocResult });
 
 function parseSudocResult(data) {
   try {
-    return JSON.parse(data)?.sudoc.query.result
+    const libraries = JSON.parse(data)?.sudoc.query.result.library
+    return Array.isArray(libraries) ? libraries : [libraries]
   } catch (error) {
     return null
   }
 }
 
-const barCodeExamples = [
-  '9780545010221',
-  // '9783161484100',
-]
+// historique de recherche
+const history = useStorage('history', [])
+watch(sudocNotice, newValue => {
+  if (newValue && !history.value.includes(decodedText.value))
+    history.value.push({
+      isbn : decodedText.value,
+      ppn: ppn.value,
+      date: new Date().toLocaleString(),
+      insight: tag200.value[0].subfield[0]['#text'] ?? null
+    })
+})
 
 const getDomain = url => new URL(url).hostname
 const getLogo = url => 'https://logo.clearbit.com/' + getDomain(url)
 
-const onDecode = (decodedValue) => {
-  decodedText.value = decodedValue
-}
-
-const onError = (error) => {
-  error.value = error
-}
+const onDecode = decodedValue => decodedText.value = decodedValue
+const onError = err => error.value = err
 
 const onLoaded = () => {
   console.log('Barcode reader loaded')
@@ -219,10 +207,10 @@ const handleInput = () => {
   animation-timeline: view();
   animation-range: entry 25% cover 50%;
 }
+
 @media (prefers-reduced-motion) {
   .container>* {
     animation: none;
   }
 }
-
 </style>
