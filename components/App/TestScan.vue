@@ -1,6 +1,6 @@
 <template>
     <div>
-        <qrcode-stream @detect="onDetect"></qrcode-stream>
+        <qrcode-stream @detect="onDetect" :formats="ean_13"></qrcode-stream>
     </div>
     <p>Résultat : {{ result }}</p>
 </template>
