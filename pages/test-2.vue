@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 
     <main class="wrapper" style="padding-top:2em">
 
@@ -155,4 +155,4 @@ function decodeOnce(codeReader, selectedDeviceId) {
             })
 })
 
-</script>
+</script> -->
