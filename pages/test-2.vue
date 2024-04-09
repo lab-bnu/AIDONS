@@ -1,3 +1,6 @@
+<template>
+    <div></div>
+</template>
 <!-- <template>
 
     <main class="wrapper" style="padding-top:2em">
