@@ -21,14 +21,14 @@
     "yarn-upgrade-all": "^0.7.2"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.1",
     "@iconify-json/lucide": "1.1.145",
     "@nuxt/image": "1.1.0",
     "@nuxt/ui": "2.11.1",
     "fast-xml-parser": "^4.3.6",
     "postcss-custom-properties": "^13.3.6",
     "vue-barcode-reader": "^1.0.3",
-    "vue-use-fixed-header": "^2.0.0",
-    "@formkit/auto-animate": "^0.8.1"
-
+    "vue-qrcode-reader": "^5.5.3",
+    "vue-use-fixed-header": "^2.0.0"
   }
 }

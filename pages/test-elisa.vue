@@ -1,0 +1,3 @@
+<template>
+    <AppTestScan></AppTestScan>
+</template>
