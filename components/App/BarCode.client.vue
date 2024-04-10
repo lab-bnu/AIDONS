@@ -68,11 +68,8 @@
       <UDivider label="Reconnaissance avec le backend" />
       <form @submit.prevent ="handleSubmit" class="flex items-center gap-2" ref = "backendForm"
         action="https://aidons-backend.vercel.app/barcode" enctype="multipart/form-data" method="post">
-        <!--  inpur opens camera on mobile -->
         <UInput name="file" type="file" accept="image/*" capture="environment" :loading="waitingBackend" @change="handleSubmit"
           class="p-1 m-1 bg-gray-300/25 rounded-md" />
-          {{ backendDtata }}
-        <!-- <input type="submit"> -->
       </form>
     </div>
 
@@ -212,7 +209,6 @@ const onLoaded = () => {
 
 const backendForm = ref(null)
 const waitingBackend = ref(false)
-const backendDtata = ref(null)
 const handleSubmit = () => {
   waitingBackend.value = true
   console.log('handleSubmit', backendForm.value)
@@ -222,10 +218,7 @@ const handleSubmit = () => {
     body: new FormData(backendForm.value),
   })
     .then(response => response.json())
-    .then(data => {
-      backendDtata.value = data
-      // data && data.code && (decodedText.value = data.code)
-    })
+    .then(data => data && data.code && (decodedText.value = data.code))
     .catch(err => error.value = err)
     .finally(() => waitingBackend.value = false)
 }
