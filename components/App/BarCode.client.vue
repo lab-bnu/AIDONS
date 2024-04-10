@@ -226,7 +226,7 @@ const handleSubmit = () => {
       backendDtata.value = data
       data && data.code && (decodedText.value = data.code)
     })
-    .catch(err => error.value = err.message)
+    .catch(err => error.value = err)
     .finally(() => waitingBackend.value = false)
 }
 
