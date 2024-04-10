@@ -99,6 +99,7 @@
 import { StreamBarcodeReader, ImageBarcodeReader } from "vue-barcode-reader";
 import * as parser from 'fast-xml-parser';
 import { useStorage } from '@vueuse/core';
+const toastNotif = useToast();
 const xmlParser = new parser.XMLParser({ ignoreAttributes: false });
 const envProd = import.meta.env.PROD;
 
@@ -139,11 +140,13 @@ const { data: ppn, error: sudocError } = await useFetch(isbnToPpn, { headers: he
 
 
 
-// onMounted(() => {
-//   fetch('https://aidons-backend.vercel.app/fapi')
-//     .then(response => response.json())
-//     .then(data => console.log(data));
-// })
+onMounted(() => {
+  toastNotif.add(decodedText.value, { type: 'success' })
+
+  fetch('https://aidons-backend.vercel.app/fapi')
+    .then(response => response.json())
+    .then(data => console.log(data));
+})
 
 const sudocNoticeUrl = computed(() => ppn.value && `https://www.sudoc.fr/${ppn.value}.xml`);
 const { data: sudocNotice } = useFetch(sudocNoticeUrl, { transform: (data) => xmlParser.parse(data), immediate: false });
@@ -171,6 +174,10 @@ watch(sudocNotice, newValue => {
       date: new Date().toLocaleString(),
       insight: tag200.value[0].subfield[0]['#text'] ?? null
     })
+})
+
+watchEffect(() => {
+  toastNotif.add(decodedText.value, { type: 'success' })
 })
 
 const getDomain = url => new URL(url).hostname
