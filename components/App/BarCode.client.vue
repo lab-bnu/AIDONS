@@ -77,9 +77,7 @@
       <UDivider label="Reconnaissance avec la caméra" />
       <AppTestScan v-model="decodedText" />
     </div>
-    <!-- <ImageBarcodeReader @decode="onDecode" @error="onError" class="text-primary-700" />
-    <StreamBarcodeReader v-if="envProd" @decode="onDecode" @loaded="onLoaded" /> -->
-
+    
     <div>
       <span class="text-primary">Autres liens</span>
       <ul class="pl-3 [&>*:hover]:text-primary transition-all" :class="{ 'opacity-30': !decodedText }">
@@ -116,7 +114,6 @@ const decodedText = ref("");
 const barCodeExamples = [
   '9780545010221',
   '9780838911297'
-  // '9783161484100',
 ]
 
 const links = {
@@ -130,32 +127,27 @@ const links = {
   Abebooks: 'https://www.abebooks.fr/servlet/SearchResults?isbn='
 }
 
-// API for cover image
+// API pour récupérer l'image de couverture
 const coverImageUrl = 'https://covers.openlibrary.org/b/isbn/';
 
-// openLibrary API
+// API OpenLibrary 
 const openLibUrl = 'https://openlibrary.org/api/books?bibkeys=ISBN:';
 const url = computed(() => openLibUrl + decodedText.value + '&format=json&jscmd=data');
 const { data: openLibData, error: openLiberror } = await useFetch(url);
 
-// sudoc API - obtention de la notice Bibliographique ppn à partir de l'ISBN
+// API SUDOC 
+// ppn à partir de l'ISBN
 const header = { accept: 'application/json' };
 const parsePPN = data => JSON.parse(data)?.sudoc?.query?.result?.ppn ?? null;
 const isbnToPpn = computed(() => `https://www.sudoc.fr/services/isbn2ppn/${decodedText.value}?format=json`);
 const { data: ppn, error: sudocError } = await useFetch(isbnToPpn, { headers: header, immediate: false, transform: parsePPN });
 
-
-// onMounted(() => {
-
-//   fetch('https://aidons-backend.vercel.app/extractinfo')
-//     .then(response => response.json())
-//     .then(data => console.log(data));
-// })
-
+// notice bibliographique à partir du ppn
 const sudocNoticeUrl = computed(() => ppn.value && `https://www.sudoc.fr/${ppn.value}.xml`);
 const { data: sudocNotice } = useFetch(sudocNoticeUrl, { transform: (data) => xmlParser.parse(data), immediate: false });
 const tag200 = computed(() => sudocNotice.value?.record?.datafield?.filter(field => field['@_tag'] === '200'))
 
+// BU où trouver le document
 const bibsUrl = computed(() => ppn.value && `https://www.sudoc.fr/services/multiwhere/${ppn.value}?format=json`)
 const { data: bibsData, pending: bibsPending } = await useFetch(bibsUrl, { headers: header, immediate: false, transform: parseSudocResult });
 
@@ -201,13 +193,7 @@ watchEffect(() => {
 const getDomain = url => new URL(url).hostname
 const getLogo = url => 'https://logo.clearbit.com/' + getDomain(url)
 
-const onDecode = decodedValue => decodedText.value = decodedValue
-const onError = err => error.value = err
-
-const onLoaded = () => {
-  console.log('Barcode reader loaded')
-}
-
+// Backend 
 const backendForm = ref(null)
 const waitingBackend = ref(false)
 const handleSubmit = () => {
@@ -223,13 +209,7 @@ const handleSubmit = () => {
     .finally(() => waitingBackend.value = false)
 }
 
-
-const handleInput = () => {
-  console.log('handleInput')
-}
-
 </script>
-
 
 <style>
 @keyframes appear {
