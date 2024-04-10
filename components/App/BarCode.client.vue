@@ -71,6 +71,7 @@
         <!--  inpur opens camera on mobile -->
         <UInput name="file" type="file" accept="image/*" capture="environment" :loading="waitingBackend" @change="handleSubmit"
           class="p-1 m-1 bg-gray-300/25 rounded-md" />
+          {{ backendDtata }}
         <!-- <input type="submit"> -->
       </form>
     </div>
@@ -147,12 +148,12 @@ const isbnToPpn = computed(() => `https://www.sudoc.fr/services/isbn2ppn/${decod
 const { data: ppn, error: sudocError } = await useFetch(isbnToPpn, { headers: header, immediate: false, transform: parsePPN });
 
 
-onMounted(() => {
+// onMounted(() => {
 
-  fetch('https://aidons-backend.vercel.app/extractinfo')
-    .then(response => response.json())
-    .then(data => console.log(data));
-})
+//   fetch('https://aidons-backend.vercel.app/extractinfo')
+//     .then(response => response.json())
+//     .then(data => console.log(data));
+// })
 
 const sudocNoticeUrl = computed(() => ppn.value && `https://www.sudoc.fr/${ppn.value}.xml`);
 const { data: sudocNotice } = useFetch(sudocNoticeUrl, { transform: (data) => xmlParser.parse(data), immediate: false });
@@ -211,6 +212,7 @@ const onLoaded = () => {
 
 const backendForm = ref(null)
 const waitingBackend = ref(false)
+const backendDtata = ref(null)
 const handleSubmit = () => {
   waitingBackend.value = true
   console.log('handleSubmit', backendForm.value)
@@ -220,10 +222,15 @@ const handleSubmit = () => {
     body: new FormData(backendForm.value),
   })
     .then(response => response.json())
-    .then(data => data && data.code && (decodedText.value = data.code))
-    .catch(error => error.value = error.message)
+    .then(data => {
+      backendDtata.value = data
+      data && data.code && (decodedText.value = data.code)
+    })
+    .catch(err => error.value = err.message)
     .finally(() => waitingBackend.value = false)
 }
+
+
 
 const handleInput = () => {
   console.log('handleInput')
