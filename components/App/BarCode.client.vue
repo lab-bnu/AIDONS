@@ -69,8 +69,9 @@
     </div>
 
     <p>Placer un code barre devant la caméra Ou choisir un fichier dans la gallerie</p>
-    <ImageBarcodeReader @decode="onDecode" @error="onError" class="text-primary-700" />
-    <StreamBarcodeReader v-if="envProd" @decode="onDecode" @loaded="onLoaded" />
+    <AppTestScan v-model="decodedText" />
+    <!-- <ImageBarcodeReader @decode="onDecode" @error="onError" class="text-primary-700" />
+    <StreamBarcodeReader v-if="envProd" @decode="onDecode" @loaded="onLoaded" /> -->
 
     <div>
       <span class="text-primary">Autres liens</span>
