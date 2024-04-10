@@ -47,7 +47,7 @@
       <div v-if="sudocNotice" class="bg-blue-500/10 p-4 mt-1 rounded-lg">
         <ul>
           <li v-for="field in tag200" :key="field">
-            <p v-for="subfield in field.subfield" :key="subfield" ref = "tag200">
+            <p v-for="subfield in field.subfield" :key="subfield" ref="tag200">
               <span class="text-primary"> ✓ </span> {{ subfield['#text'] }}
             </p>
           </li>
@@ -141,7 +141,6 @@ const { data: ppn, error: sudocError } = await useFetch(isbnToPpn, { headers: he
 
 
 onMounted(() => {
-  toastNotif.add(decodedText.value, { type: 'success' })
 
   fetch('https://aidons-backend.vercel.app/fapi')
     .then(response => response.json())
@@ -169,15 +168,20 @@ const history = useStorage('history', [])
 watch(sudocNotice, newValue => {
   if (newValue && !history.value.includes(decodedText.value))
     history.value.push({
-      isbn : decodedText.value,
+      isbn: decodedText.value,
       ppn: ppn.value,
       date: new Date().toLocaleString(),
       insight: tag200.value[0].subfield[0]['#text'] ?? null
     })
 })
 
+// Affiche une notif lorsqu'un nouveau code barre est détecté
+const lastNotif = ref('')
 watchEffect(() => {
-  toastNotif.add(decodedText.value, { type: 'success' })
+  if (decodedText.value && decodedText.value !== lastNotif.value) {
+    lastNotif.value = decodedText.value
+    toastNotif.add({title : `Code barre détecté - ${decodedText.value}`,  type: 'success' })
+  }
 })
 
 const getDomain = url => new URL(url).hostname

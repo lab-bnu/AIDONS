@@ -1,10 +1,9 @@
 <template>
-    <div>
-        <qrcode-stream :formats @detect="onDetect">
-        </qrcode-stream>
-        <br>
+    <div class="space-y-7">
         <qrcode-capture :formats @detect="onDetect">
         </qrcode-capture>
+        <qrcode-stream :formats @detect="onDetect">
+        </qrcode-stream>
     </div>
 </template>
 

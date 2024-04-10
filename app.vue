@@ -5,6 +5,8 @@
   <UContainer>
     <NuxtPage />
   </UContainer>
+  <UNotifications />
+
   <div class="h-32"></div>
   <AppFooter />
 </template>
