@@ -224,7 +224,7 @@ const handleSubmit = () => {
     .then(response => response.json())
     .then(data => {
       backendDtata.value = data
-      data && data.code && (decodedText.value = data.code)
+      // data && data.code && (decodedText.value = data.code)
     })
     .catch(err => error.value = err)
     .finally(() => waitingBackend.value = false)
