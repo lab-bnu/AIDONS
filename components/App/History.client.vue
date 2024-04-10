@@ -3,7 +3,7 @@
         <section class=" mx-auto p-4 space-y-10">
             <h1 class="text-2xl font-bold">Historique de recherche</h1>
             <ul class="my-animate-children-appear" v-auto-animate >
-                <!-- <ul class=""> -->
+                <!-- <UTable :rows="history" /> -->
                 <li v-for="item in history" :key="item.isbn"
                     class="flex items-center gap-3 mb-2 hover:!bg-slate-400/10 rounded-md odd:bg-gray-700/10 p-2 relative">
                     <span class="basis-50">
@@ -26,6 +26,8 @@
 
 import { useStorage } from '@vueuse/core';
 const history = useStorage('history', [])
+// sort history by date
+history.value.sort((a, b) => new Date(b.date) - new Date(a.date))
 
 const removeItem = (index) => {
     history.value.splice(index, 1)

@@ -1,6 +1,4 @@
 <template>
-  <!-- <div class="space-y-10 [&>*]:border-teal-500/20 [&>*]:border-l-2 [&>*]:pl-3"> -->
-  <!-- <div class="space-y-10 [&>*]:shadow-md [&>*]:shadow-primary-800/10"> -->
   <div class="container space-y-10 ">
 
     <section>
@@ -16,7 +14,6 @@
         class="cursor-pointer text-primary-700 hover:text-primary-500 m-2">{{ code }}</span>
 
       <!-- Input principal - code barre -->
-      <!-- <UInput v-model.lazy="decodedText" placeholder="Code barre" icon="i-lucide-barcode" size="xl" -->
       <UInput v-model="decodedText" placeholder="Code barre" icon="i-lucide-barcode" size="xl"
         class="[&>*]:tracking-[3px]" />
     </p>
@@ -52,20 +49,28 @@
             </p>
           </li>
         </ul>
-        <a v-if="ppn" :href="`https://www.sudoc.fr/${ppn}`" target="_blank" class="ml-1 text-primary underline">voir le
-          détail sur le Sudoc</a>
+        <a v-if="ppn" :href="`https://www.sudoc.fr/${ppn}`" target="_blank" class="ml-1 text-primary underline">
+          voir le détail sur le Sudoc
+        </a>
       </div>
     </div>
 
-    <div>
+    <div :class="{ 'opacity-10': !decodedText }">
       <UDivider label="Bibliothèques où trouver le document" />
-      <ul class="pl-3" :class="{ 'opacity-30': !decodedText }">
+      <!--  show icon if bnu contains doc -->
+      <p v-show="decodedText" :class="{ 'text-primary': foundInBNU }">
+        {{ foundInBNU ? " ✓ Document trouvé à la BNU" : "X Document non trouvé à la BNU"}}
+      </p>
+      <UAccordion
+        variant = "outlined" 
+        :items="[ { label: 'Afficher / masquer la liste', content: bibsData?.map(lib => lib.shortname).join(' | ') } ]" />
+      <!-- <ul class="pl-3" :class="{ 'opacity-30': !decodedText }">
         <li v-for="lib in bibsData" :key="lib" class="m-2"
           :class="{ 'bg-blue-500/10': lib.shortname === 'STRASBOURG-BNU' }">
-          <!-- {{lib.rcr}} -->
           {{ lib.shortname }}
         </li>
-      </ul>
+      </ul> -->
+      <!-- {{lib.rcr}} -->
     </div>
 
     <p>Placer un code barre devant la caméra Ou choisir un fichier dans la gallerie</p>
@@ -138,11 +143,9 @@ const isbnToPpn = computed(() => `https://www.sudoc.fr/services/isbn2ppn/${decod
 const { data: ppn, error: sudocError } = await useFetch(isbnToPpn, { headers: header, immediate: false, transform: parsePPN });
 
 
-
-
 onMounted(() => {
 
-  fetch('https://aidons-backend.vercel.app/fapi')
+  fetch('https://aidons-backend.vercel.app/extractinfo')
     .then(response => response.json())
     .then(data => console.log(data));
 })
@@ -163,15 +166,23 @@ function parseSudocResult(data) {
   }
 }
 
-// historique de recherche
+// Notif si document trouvé à la BNU
+const foundInBNU = computed(() => bibsData.value?.some(lib => lib.shortname === 'STRASBOURG-BNU'))
+watch(foundInBNU, newValue => {
+  if (newValue) toastNotif.add({ title: 'Document trouvé à la BNU', type: 'success' })
+})
+
+// historique de recherche - à chque notice trouvée
 const history = useStorage('history', [])
 watch(sudocNotice, newValue => {
+  if (newValue)
+    toastNotif.add({ title: 'Notice sudoc trouvée', type: 'success' })
   if (newValue && !history.value.includes(decodedText.value))
     history.value.push({
       isbn: decodedText.value,
       ppn: ppn.value,
       date: new Date().toLocaleString(),
-      insight: tag200.value[0].subfield[0]['#text'] ?? null
+      insight: tag200.value[0].subfield[0]['#text'] ?? null   // insight : titre de la notice (tag 200)
     })
 })
 
