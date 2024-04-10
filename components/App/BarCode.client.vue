@@ -55,26 +55,30 @@
       </div>
     </div>
 
-    <div :class="{ 'opacity-10': !decodedText }">
-      <UDivider label="Bibliothèques où trouver le document" />
-      <!--  show icon if bnu contains doc -->
+    <div>
+      <UDivider label="BU où trouver le document" />
       <p v-show="decodedText" :class="{ 'text-primary': foundInBNU }">
-        {{ foundInBNU ? " ✓ Document trouvé à la BNU" : "X Document non trouvé à la BNU"}}
+        {{ foundInBNU ? " ✓ Document trouvé à la BNU" : "Document non trouvé à la BNU" }}
       </p>
-      <UAccordion
-        variant = "outlined" 
-        :items="[ { label: 'Afficher / masquer la liste', content: bibsData?.map(lib => lib.shortname).join(' | ') } ]" />
-      <!-- <ul class="pl-3" :class="{ 'opacity-30': !decodedText }">
-        <li v-for="lib in bibsData" :key="lib" class="m-2"
-          :class="{ 'bg-blue-500/10': lib.shortname === 'STRASBOURG-BNU' }">
-          {{ lib.shortname }}
-        </li>
-      </ul> -->
-      <!-- {{lib.rcr}} -->
+      <UAccordion :variant="'ghost'"
+        :items="[{ label: 'Afficher / masquer la liste', content: bibsData?.map(lib => lib.shortname).join(' | ') }]" />
     </div>
 
-    <p>Placer un code barre devant la caméra Ou choisir un fichier dans la gallerie</p>
-    <AppTestScan v-model="decodedText" />
+    <div>
+      <UDivider label="Reconnaissance avec le backend" />
+      <form @submit.prevent ="handleSubmit" class="flex items-center gap-2" ref = "backendForm"
+        action="https://aidons-backend.vercel.app/barcode" enctype="multipart/form-data" method="post">
+        <!--  inpur opens camera on mobile -->
+        <UInput name="file" type="file" accept="image/*" capture="environment" :loading="waitingBackend" @change="handleSubmit"
+          class="p-1 m-1 bg-gray-300/25 rounded-md" />
+        <!-- <input type="submit"> -->
+      </form>
+    </div>
+
+    <div>
+      <UDivider label="Reconnaissance avec la caméra" />
+      <AppTestScan v-model="decodedText" />
+    </div>
     <!-- <ImageBarcodeReader @decode="onDecode" @error="onError" class="text-primary-700" />
     <StreamBarcodeReader v-if="envProd" @decode="onDecode" @loaded="onLoaded" /> -->
 
@@ -191,7 +195,7 @@ const lastNotif = ref('')
 watchEffect(() => {
   if (decodedText.value && decodedText.value !== lastNotif.value) {
     lastNotif.value = decodedText.value
-    toastNotif.add({title : `Code barre détecté - ${decodedText.value}`,  type: 'success' })
+    toastNotif.add({ title: `Code barre détecté - ${decodedText.value}`, type: 'success' })
   }
 })
 
@@ -203,6 +207,22 @@ const onError = err => error.value = err
 
 const onLoaded = () => {
   console.log('Barcode reader loaded')
+}
+
+const backendForm = ref(null)
+const waitingBackend = ref(false)
+const handleSubmit = () => {
+  waitingBackend.value = true
+  console.log('handleSubmit', backendForm.value)
+  // send file to baxkend
+  fetch('https://aidons-backend.vercel.app/barcode', {
+    method: 'POST',
+    body: new FormData(backendForm.value),
+  })
+    .then(response => response.json())
+    .then(data => data && data.code && (decodedText.value = data.code))
+    .catch(error => error.value = error.message)
+    .finally(() => waitingBackend.value = false)
 }
 
 const handleInput = () => {
