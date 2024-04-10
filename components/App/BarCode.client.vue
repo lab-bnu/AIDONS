@@ -66,10 +66,10 @@
 
     <div>
       <UDivider label="Reconnaissance avec le backend" />
-      <form @submit.prevent ="handleSubmit" class="flex items-center gap-2" ref = "backendForm"
+      <form @submit.prevent="handleSubmit" class="flex items-center gap-2" ref="backendForm"
         action="https://aidons-backend.vercel.app/barcode" enctype="multipart/form-data" method="post">
-        <UInput name="file" type="file" accept="image/*" capture="environment" :loading="waitingBackend" @change="handleSubmit"
-          class="p-1 m-1 bg-gray-300/25 rounded-md" />
+        <UInput name="file" type="file" accept="image/*" capture="environment" :loading="waitingBackend"
+          @change="handleSubmit" class="p-1 m-1 bg-gray-300/25 rounded-md" />
       </form>
     </div>
 
@@ -157,7 +157,7 @@ const { data: sudocNotice } = useFetch(sudocNoticeUrl, { transform: (data) => xm
 const tag200 = computed(() => sudocNotice.value?.record?.datafield?.filter(field => field['@_tag'] === '200'))
 
 const bibsUrl = computed(() => ppn.value && `https://www.sudoc.fr/services/multiwhere/${ppn.value}?format=json`)
-const { data: bibsData, error: bibsError } = await useFetch(bibsUrl, { headers: header, immediate: false, transform: parseSudocResult });
+const { data: bibsData, pending: bibsPending } = await useFetch(bibsUrl, { headers: header, immediate: false, transform: parseSudocResult });
 
 function parseSudocResult(data) {
   try {
@@ -169,7 +169,7 @@ function parseSudocResult(data) {
 }
 
 // Notif si document trouvé à la BNU
-const foundInBNU = computed(() => bibsData.value?.some(lib => lib.shortname === 'STRASBOURG-BNU'))
+const foundInBNU = computed(() => !bibsPending.value && bibsData.value?.some(lib => lib.shortname === 'STRASBOURG-BNU'))
 watch(foundInBNU, newValue => {
   if (newValue) toastNotif.add({ title: 'Document trouvé à la BNU', type: 'success' })
 })
@@ -177,15 +177,16 @@ watch(foundInBNU, newValue => {
 // historique de recherche - à chque notice trouvée
 const history = useStorage('history', [])
 watch(sudocNotice, newValue => {
-  if (newValue)
+  if (newValue) {
     toastNotif.add({ title: 'Notice sudoc trouvée', type: 'success' })
-  if (newValue && !history.value.includes(decodedText.value))
     history.value.push({
       isbn: decodedText.value,
       ppn: ppn.value,
       date: new Date().toLocaleString(),
+      bnu: foundInBNU.value,
       insight: tag200.value[0].subfield[0]['#text'] ?? null   // insight : titre de la notice (tag 200)
     })
+  }
 })
 
 // Affiche une notif lorsqu'un nouveau code barre est détecté
@@ -212,7 +213,6 @@ const waitingBackend = ref(false)
 const handleSubmit = () => {
   waitingBackend.value = true
   console.log('handleSubmit', backendForm.value)
-  // send file to baxkend
   fetch('https://aidons-backend.vercel.app/barcode', {
     method: 'POST',
     body: new FormData(backendForm.value),
@@ -222,7 +222,6 @@ const handleSubmit = () => {
     .catch(err => error.value = err)
     .finally(() => waitingBackend.value = false)
 }
-
 
 
 const handleInput = () => {

@@ -5,14 +5,15 @@
             <ul class="my-animate-children-appear" v-auto-animate >
                 <!-- <UTable :rows="history" /> -->
                 <li v-for="item in history" :key="item.isbn"
-                    class="flex items-center gap-3 mb-2 hover:!bg-slate-400/10 rounded-md odd:bg-gray-700/10 p-2 relative">
+                    class="flex items-center gap-3 mb-2 hover:!bg-slate-400/10 rounded-md odd:bg-gray-700/10 p-2">
                     <span class="basis-50">
                         {{ item.insight }}
                     </span>
-                    <a href="#" target="_blank" class="text-primary underline truncate md:w-80 w-72"> 
+                    <a href="#" target="_blank" class="text-primary underline truncate w-40"> 
                         {{ item.isbn }}
                     </a>
-                    <UButton @click="removeItem(history.indexOf(item))" icon="i-heroicons-trash" size="xs" color="primary" square variant="ghost" />
+                    <UButton @click="removeItem(history.indexOf(item))" icon="i-heroicons-trash" size="xs" color="primary" variant="ghost" 
+                        class="flex-1 justify-end" />
                 </li>
             </ul>
             <div v-if = "!history.length">
