@@ -4,7 +4,7 @@
         </qrcode-capture>
         <div class="flex items-center gap-2">
             <UToggle v-model="isCameraOpen" id = "toggle-camera" on-icon="i-lucide-camera" size = "xl"/>
-            <label for = "toggle-camera">{{ isCameraOpen ? 'Désactiver' : 'Activer' }} la caméra</label>
+            <label for = "toggle-camera" class="cursor-pointer">{{ isCameraOpen ? 'Désactiver' : 'Activer' }} la caméra</label>
         </div>
         <qrcode-stream v-if = "isCameraOpen" :formats @detect="onDetect">
         </qrcode-stream>

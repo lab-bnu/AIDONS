@@ -74,7 +74,7 @@
     </div>
 
     <div>
-      <UDivider label="Reconnaissance avec la caméra" />
+      <UDivider label="Reconnaissance en temps réel" />
       <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre -->
     </div>
     <div>
@@ -173,7 +173,7 @@ function parseSudocResult(data) {
 // Notif si document trouvé à la BNU
 const foundInBNU = computed(() => !bibsPending.value && bibsData.value?.some(lib => lib.shortname === 'STRASBOURG-BNU'))
 watch(foundInBNU, newValue => {
-  if (newValue) toastNotif.add({ title: 'Document trouvé à la BNU', type: 'success' })
+  if (newValue) toastNotif.add({ title: 'Document trouvé à la BNU', type: 'success', icon: 'i-lucide-book-open-check'  })
 })
 
 const bookTitle = computed(() => tag200.value[0].subfield[0]['#text'] ?? null)  // titre de la notice (tag 200)
@@ -181,7 +181,7 @@ const bookTitle = computed(() => tag200.value[0].subfield[0]['#text'] ?? null)  
 const history = useStorage('history', [])
 watch(sudocNotice, newValue => {
   if (newValue) {
-    toastNotif.add({ title: `Notice trouvée - ${bookTitle.value}`, type: 'success' })
+    toastNotif.add({ title: `Notice trouvée - ${bookTitle.value}`, type: 'success', icon: 'i-lucide-book' })
     history.value.push({
       isbn: decodedText.value,
       ppn: ppn.value,
