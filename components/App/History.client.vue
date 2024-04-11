@@ -9,10 +9,11 @@
                     <span class="basis-50">
                         {{ item.insight }}
                     </span>
-                    <a href="#" target="_blank" class="text-primary underline truncate w-40"> 
+                    <NuxtLink :to="`/code/${item.isbn}`" class="text-primary underline truncate w-40">
                         {{ item.isbn }}
-                    </a>
-                    <UButton @click="removeItem(history.indexOf(item))" icon="i-heroicons-trash" size="xs" color="primary" variant="ghost" 
+                    </NuxtLink>
+                    <UButton @click="removeItem(history.indexOf(item))" 
+                        icon="i-heroicons-trash" size="xs" color="primary" variant="ghost" 
                         class="flex-1 justify-end" />
                 </li>
             </ul>

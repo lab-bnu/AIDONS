@@ -75,9 +75,8 @@
 
     <div>
       <UDivider label="Reconnaissance avec la caméra" />
-      <AppTestScan v-model="decodedText" />
+      <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre -->
     </div>
-    
     <div>
       <span class="text-primary">Autres liens</span>
       <ul class="pl-3 [&>*:hover]:text-primary transition-all" :class="{ 'opacity-30': !decodedText }">
@@ -108,8 +107,15 @@ const toastNotif = useToast();
 const xmlParser = new parser.XMLParser({ ignoreAttributes: false });
 const envProd = import.meta.env.PROD;
 
+const props = defineProps({
+  code: {
+    type: String,
+    default: ''
+  }
+})
+
+const decodedText = ref(props.code);
 const error = ref('');
-const decodedText = ref("");
 
 const barCodeExamples = [
   '9780545010221',
@@ -140,7 +146,11 @@ const { data: openLibData, error: openLiberror } = await useFetch(url);
 const header = { accept: 'application/json' };
 const parsePPN = data => JSON.parse(data)?.sudoc?.query?.result?.ppn ?? null;
 const isbnToPpn = computed(() => `https://www.sudoc.fr/services/isbn2ppn/${decodedText.value}?format=json`);
-const { data: ppn, error: sudocError } = await useFetch(isbnToPpn, { headers: header, immediate: false, transform: parsePPN });
+const { data: ppn, error: sudocError, execute: fetchPpn } = await useFetch(isbnToPpn, { headers: header, immediate: false, transform: parsePPN });
+// lance la requête dès chargement si code barre passé en paramètre
+if (props.code) {
+  fetchPpn()
+}
 
 // notice bibliographique à partir du ppn
 const sudocNoticeUrl = computed(() => ppn.value && `https://www.sudoc.fr/${ppn.value}.xml`);
@@ -166,17 +176,18 @@ watch(foundInBNU, newValue => {
   if (newValue) toastNotif.add({ title: 'Document trouvé à la BNU', type: 'success' })
 })
 
+const bookTitle = computed(() => tag200.value[0].subfield[0]['#text'] ?? null)  // titre de la notice (tag 200)
 // historique de recherche - à chque notice trouvée
 const history = useStorage('history', [])
 watch(sudocNotice, newValue => {
   if (newValue) {
-    toastNotif.add({ title: 'Notice sudoc trouvée', type: 'success' })
+    toastNotif.add({ title: `Notice trouvée - ${bookTitle.value}`, type: 'success' })
     history.value.push({
       isbn: decodedText.value,
       ppn: ppn.value,
       date: new Date().toLocaleString(),
       bnu: foundInBNU.value,
-      insight: tag200.value[0].subfield[0]['#text'] ?? null   // insight : titre de la notice (tag 200)
+      insight: bookTitle.value
     })
   }
 })
