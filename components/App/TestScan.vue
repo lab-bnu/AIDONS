@@ -11,20 +11,18 @@
         <div class="flex justify-between text-xl">
 
             <NuxtLink to="/historique" class="bg-slate-500/25 w-24 h-24 justify-center rounded-md">
-                <UButton title="Historique" alt="Historique" class="w-24 h-24 justify-center" size="xl" rounded
-                    color="primary" variant="ghost">
+                <UButton title="Historique" alt="Historique" class="w-24 h-24 justify-center" rounded variant="ghost">
                     <UIcon name="i-lucide-history" class="w-10 h-10" />
                 </UButton>
             </NuxtLink>
             <!-- :icon="'i-lucide-cloud-upload'" -->
             <UButton @click="triggerFileInput" title="Importer un fichier" alt="Importer un fichier"
-                class="bg-slate-500/25 w-24 h-24 justify-center" rounded color="primary" variant="ghost">
+                class="bg-slate-500/25 w-24 h-24 justify-center" rounded variant="ghost">
                 <UIcon name="i-lucide-upload" class="w-10 h-10" />
             </UButton>
 
             <UButton @click="isCameraOpen = !isCameraOpen" class="bg-slate-500/25 w-24 h-24 justify-center"
-                title="Activer / déscativer la caméra" alt="Activer ou désactiver la caméra" size="xl" rounded
-                color="primary" variant="ghost">
+                title="Activer / déscativer la caméra" alt="Activer ou désactiver la caméra" rounded variant="ghost">
                 <UIcon :name="isCameraOpen ? 'i-lucide-camera-off' : 'i-lucide-camera'" class="w-10 h-10" />
             </UButton>
         </div>

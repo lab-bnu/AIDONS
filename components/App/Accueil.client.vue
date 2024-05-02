@@ -8,19 +8,18 @@
 
     <p v-if="error" class="text-red-500">{{ error }}</p>
 
-    <p v-if = "!envProd" 
-      class="text-sm text-gray-500 space-y-2">
+    <p v-if="!envProd" class="text-sm text-gray-500 space-y-2">
       Exemples (mode développement ) :
       <span v-for="code in barCodeExamples" :key="code" @click="decodedText = code"
         class="cursor-pointer text-primary-700 hover:text-primary-500 m-2">{{ code }}
       </span>
 
-      <!-- Input principal - code barre -->
-      <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner avec la caméra" icon="i-lucide-barcode" size="xl"
-        class="[&>*]:tracking-[3px]" />
     </p>
+    <!-- Input principal - code barre -->
+    <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner avec la caméra" icon="i-lucide-barcode"
+      size="xl" class="[&>*]:tracking-[3px]" />
 
-      <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre -->
+    <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre -->
 
     <p class="flex items-center gap-4 [&>*]:flex [&>*]:items-center [&>*]:gap-2">
       Voir sur
@@ -154,7 +153,7 @@ function parseSudocResult(data) {
 // Notif si document trouvé à la BNU
 const foundInBNU = computed(() => !bibsPending.value && bibsData.value?.some(lib => lib.shortname === 'STRASBOURG-BNU'))
 watch(foundInBNU, newValue => {
-  if (newValue) toastNotif.add({ title: 'Document trouvé à la BNU', type: 'success', icon: 'i-lucide-book-open-check'  })
+  if (newValue) toastNotif.add({ title: 'Document trouvé à la BNU', type: 'success', icon: 'i-lucide-book-open-check' })
 })
 
 const bookTitle = computed(() => tag200.value[0].subfield[0]['#text'] ?? null)  // titre de la notice (tag 200)
