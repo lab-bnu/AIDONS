@@ -20,11 +20,12 @@
 
       <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner" icon="i-lucide-barcode" size="xl"
         class="[&>*]:tracking-[3px]" />
+
       <a :href="links['Biblio.bnu'] + decodedText" target="_blank"
         alt = "voir sur Biblio.bnu" title = "voir sur Biblio.bnu"
         class="absolute top-1 right-3" :aria-disabled="!decodedText"
         :class="{ 'opacity-30': !decodedText }">
-        <UAvatar :src="getLogo(links['Biblio.bnu'])"  size="sm" :alt="'logo ' + links['Biblio.bnu']" />
+        <UAvatar :src="getLogo(links['Biblio.bnu'])"  size="sm" :alt="'logo ' + links['Biblio.bnu']" imgClass = "border-2 border-gray-200 p-[2px]" />
       </a>
     </div>
 
@@ -36,7 +37,7 @@
     <div>
       <UDivider label="Notice" />
       <!-- <div v-if="sudocNotice" class="bg-blue-500/10 p-4 mt-1 rounded-lg"> -->
-      <div v-if="sudocNotice" class="bg-gradient-to-tr from-blue-950 to-blue-950/50 p-4 mt-1 rounded-lg">
+      <div v-if="sudocNotice" class="bg-gradient-to-tr from-blue-950/10 to-blue-950/20 p-4 mt-1 rounded-lg">
         <ul>
           <li v-for="field in tag200" :key="field">
             <p v-for="subfield in field.subfield" :key="subfield" ref="tag200">
