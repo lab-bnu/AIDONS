@@ -1,6 +1,6 @@
 <template>
-  <div ref="headerRef" :style="styles" class="fixed top-0 w-full z-50 hidden">
-    <nav class="mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl">
+  <div ref="headerRef" :style="styles" class="fixed top-0 w-full z-50 ">
+    <nav class="mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl hidden">
       <ul
         class="flex items-center my-4 px-3 text-sm font-medium text-gray-800 rounded-full shadow-lg bg-white/90 shadow-gray-800/5 ring-1 backdrop-blur dark:bg-gray-800/90 dark:text-gray-200 dark:ring-white/20 ring-gray-900/5">
         <li v-for="item in items" :key="item.path">
@@ -23,6 +23,9 @@
         </li>
       </ul>
     </nav>
+
+    <AppThemeToggle class="absolute text-right right-2 top-2 z-10 bg-slate-500/25 rounded-full h-10"/>
+
   </div>
 </template>
 
