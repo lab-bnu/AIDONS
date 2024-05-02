@@ -16,13 +16,22 @@
 
     </p>
     <!-- Input principal - code barre -->
-    <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner" icon="i-lucide-barcode"
-      size="xl" class="[&>*]:tracking-[3px]" />
+    <div class="relative">
+
+      <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner" icon="i-lucide-barcode" size="xl"
+        class="[&>*]:tracking-[3px]" />
+      <a :href="links['Biblio.bnu'] + decodedText" target="_blank"
+        alt = "voir sur Biblio.bnu" title = "voir sur Biblio.bnu"
+        class="absolute top-1 right-3" :aria-disabled="!decodedText"
+        :class="{ 'opacity-30': !decodedText }">
+        <UAvatar :src="getLogo(links['Biblio.bnu'])"  size="sm" :alt="'logo ' + links['Biblio.bnu']" />
+      </a>
+    </div>
 
     <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre -->
 
-    
-    
+
+
     <!-- Notice ppn obtenue à partir de l'ISBN - api sudoc -->
     <div>
       <UDivider label="Notice" />
@@ -41,24 +50,25 @@
       </div>
     </div>
 
-      <p class="flex items-center gap-4 [&>*]:flex [&>*]:items-center [&>*]:gap-2">
-        Voir sur
-        <!-- Biblio.bnu -->
-        <a :href="links['Biblio.bnu'] + decodedText" target="_blank"
-          class="text-primary transition-all duration-500 underline" :aria-disabled="!decodedText"
-          :class="{ 'opacity-30': !decodedText }">
-          <UAvatar :src="getLogo(links['Biblio.bnu'])" class="w-6 h-6" size="xs" :alt="'logo ' + links['Biblio.bnu']" />
-          Biblio.bnu
-        </a>
-        <!--  worldcat -->
-        <a :href="`https://www.worldcat.org/search?q=${decodedText}`" target="_blank"
-          class="text-primary transition-all duration-500 underline" :aria-disabled="!decodedText"
-          :class="{ 'opacity-30': !decodedText }">
-          <UAvatar :src="getLogo('https://www.worldcat.org')" class="w-6 h-6" size="xs"
-            :alt="'logo ' + 'https://www.worldcat.org'" />
-          WorldCat
-        </a>
-      </p>
+    <!-- <p class="flex items-center gap-4 [&>*]:flex [&>*]:items-center [&>*]:gap-2"> -->
+    <p class="hidden">
+      Voir sur
+      <!-- Biblio.bnu -->
+      <a :href="links['Biblio.bnu'] + decodedText" target="_blank"
+        class="text-primary transition-all duration-500 underline" :aria-disabled="!decodedText"
+        :class="{ 'opacity-30': !decodedText }">
+        <UAvatar :src="getLogo(links['Biblio.bnu'])" class="w-6 h-6" size="xs" :alt="'logo ' + links['Biblio.bnu']" />
+        Biblio.bnu
+      </a>
+      <!--  worldcat -->
+      <a :href="`https://www.worldcat.org/search?q=${decodedText}`" target="_blank"
+        class="text-primary transition-all duration-500 underline" :aria-disabled="!decodedText"
+        :class="{ 'opacity-30': !decodedText }">
+        <UAvatar :src="getLogo('https://www.worldcat.org')" class="w-6 h-6" size="xs"
+          :alt="'logo ' + 'https://www.worldcat.org'" />
+        WorldCat
+      </a>
+    </p>
     <div>
       <UDivider label="BU où trouver le document" />
       <p v-show="decodedText" :class="{ 'text-primary': foundInBNU }">
