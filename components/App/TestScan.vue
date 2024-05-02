@@ -1,7 +1,8 @@
 <template>
     <div class="space-y-7">
-        <div class=" p-2 rounded-lg h-[40vh] overflow-hidden grid place-items-center bg-gradient-to-tr from-blue-950/20 to-blue-950/40">
-            <qrcode-stream v-if="isCameraOpen" :formats @detect="onDetect" />
+        <div class=" relative p- rounded-lg w-full h-[40vh] overflow-hidden grid place-items-center bg-gradient-to-tr from-blue-950/20 to-blue-950/40">
+            <div class = "absolute w-full h-full z-30 border-[10px] border-blue-300/20"></div>
+            <qrcode-stream v-if="isCameraOpen" :formats @detect="onDetect" class="!absolute z-20 w-full h-full"/>
             <UIcon v-else name="i-lucide-book-open" class="w-24 h-24 text-gray-300"/>
         </div>
         <!-- <div class="flex items-center gap-2">

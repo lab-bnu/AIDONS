@@ -1,11 +1,10 @@
 <template>
     <main class="min-h-screen ">
-        <section class=" mx-auto p-4 space-y-10">
-            <h1 class="text-2xl font-bold">Historique de recherche</h1>
+        <section class=" mx-auto p-4">
             <ul class="my-animate-children-appear" v-auto-animate >
                 <!-- <UTable :rows="history" /> -->
                 <li v-for="item in history" :key="item.isbn"
-                    class="flex items-center gap-3 mb-2 hover:!bg-slate-400/10 rounded-md odd:bg-gray-700/10 p-2">
+                    class="flex items-center gap-3 mb- hover:!bg-slate-400/10 rounded-md odd:bg-gray-500/30 p-2">
                     <span class="basis-50">
                         {{ item.insight }}
                     </span>

@@ -1,5 +1,7 @@
 <template>
     <main class="min-h-screen">
+        <h1 class="text-2xl font-bold text-center">Historique</h1>
+
         <AppHistory />
     </main>
 </template>

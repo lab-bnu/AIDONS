@@ -3,7 +3,7 @@
 
     <section>
       <h1 class="text-primary">AIDONS</h1>
-      <h2 class="tracking-wider opacity-80 italic mt-1">Aide à l'instruction de documents par l'IA</h2>
+      <h2 class="opacity-80 mt-1">Aide à l'instruction de documents par l'IA</h2>
     </section>
 
     <p v-if="error" class="text-red-500">{{ error }}</p>
@@ -18,8 +18,7 @@
     <!-- Input principal - code barre -->
     <div class="relative">
 
-      <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner" icon="i-lucide-barcode" size="xl"
-        class="[&>*]:tracking-[3px]" />
+      <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner" icon="i-lucide-barcode" size="xl" />
 
       <a :href="links['Biblio.bnu'] + decodedText" target="_blank"
         alt = "voir sur Biblio.bnu" title = "voir sur Biblio.bnu"
@@ -29,15 +28,13 @@
       </a>
     </div>
 
-    <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre -->
-
-
+    <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre de l'url -->
 
     <!-- Notice ppn obtenue à partir de l'ISBN - api sudoc -->
     <div>
       <UDivider label="Notice" />
       <!-- <div v-if="sudocNotice" class="bg-blue-500/10 p-4 mt-1 rounded-lg"> -->
-      <div v-if="sudocNotice" class="bg-gradient-to-tr from-blue-600/40 to-blue-700/30 p-4 mt-1 rounded-lg">
+      <div v-if="sudocNotice" class="bg-gradient-to-tr from-blue-950/20 to-blue-950/40 p-4 mt-1 rounded-lg">
         <ul>
           <li v-for="field in tag200" :key="field">
             <p v-for="subfield in field.subfield" :key="subfield" ref="tag200">
@@ -49,6 +46,20 @@
           voir le détail sur le Sudoc
         </a>
       </div>
+    </div>
+
+    <div>
+      <UDivider label="Historique" />
+      <AppHistory />
+    </div>
+
+    <div>
+      <UDivider label="BU où trouver le document" />
+      <p v-show="decodedText" :class="{ 'text-primary': foundInBNU }">
+        {{ foundInBNU ? " ✓ Document trouvé à la BNU" : "Document non trouvé à la BNU" }}
+      </p>
+      <UAccordion :variant="'ghost'"
+        :items="[{ label: 'Afficher / masquer la liste', content: bibsData?.map(lib => lib.shortname).join(' | ') }]" />
     </div>
 
     <!-- <p class="flex items-center gap-4 [&>*]:flex [&>*]:items-center [&>*]:gap-2"> -->
@@ -70,16 +81,8 @@
         WorldCat
       </a>
     </p>
-    <div>
-      <UDivider label="BU où trouver le document" />
-      <p v-show="decodedText" :class="{ 'text-primary': foundInBNU }">
-        {{ foundInBNU ? " ✓ Document trouvé à la BNU" : "Document non trouvé à la BNU" }}
-      </p>
-      <UAccordion :variant="'ghost'"
-        :items="[{ label: 'Afficher / masquer la liste', content: bibsData?.map(lib => lib.shortname).join(' | ') }]" />
-    </div>
 
-    <div>
+    <div class="hidden">
       <UDivider label="Reconnaissance avec le backend" />
       <form @submit.prevent="handleSubmit" class="flex items-center gap-2" ref="backendForm"
         action="https://aidons-backend.vercel.app/barcode" enctype="multipart/form-data" method="post">
