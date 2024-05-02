@@ -23,7 +23,7 @@ export default defineNuxtConfig({
         class: "h-full",
       },
       bodyAttrs: {
-        class: "antialiased bg-gray-50 dark:bg-black min-h-screen",
+        class: "antialiased bg-gray-50 dark:bg-gradient-to-r dark:from-slate-950 dark:to-black min-h-screen",
       },
     },
   },
