@@ -16,7 +16,7 @@
 
     </p>
     <!-- Input principal - code barre -->
-    <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner avec la caméra" icon="i-lucide-barcode"
+    <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner" icon="i-lucide-barcode"
       size="xl" class="[&>*]:tracking-[3px]" />
 
     <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre -->
