@@ -49,11 +49,6 @@
     </div>
 
     <div>
-      <UDivider label="Historique" />
-      <AppHistory />
-    </div>
-
-    <div>
       <UDivider label="BU où trouver le document" />
       <p v-show="decodedText" :class="{ 'text-primary': foundInBNU }">
         {{ foundInBNU ? " ✓ Document trouvé à la BNU" : "Document non trouvé à la BNU" }}
@@ -61,6 +56,11 @@
       <UAccordion :variant="'ghost'"
         :items="[{ label: 'Afficher / masquer la liste', content: bibsData?.map(lib => lib.shortname).join(' | ') }]" />
     </div>
+    <div>
+      <UDivider label="Historique" />
+      <AppHistory />
+    </div>
+
 
     <!-- <p class="flex items-center gap-4 [&>*]:flex [&>*]:items-center [&>*]:gap-2"> -->
     <p class="hidden">

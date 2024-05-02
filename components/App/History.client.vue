@@ -3,8 +3,8 @@
         <section class=" mx-auto p-4">
             <ul class="my-animate-children-appear" v-auto-animate >
                 <!-- <UTable :rows="history" /> -->
-                <li v-for="item in history" :key="item.isbn"
-                    class="flex items-center gap-3 hover:!bg-slate-400/10 rounded-md odd:bg-gray-500/10 p-2">
+                <li v-for="item in history.slice().reverse()" :key="item.isbn"
+                    class="flex items-center gap-3 hover:!bg-slate-400/10 rounded-md odd:bg-gray-500/10 p-2 ">
                     <span class="basis-50">
                         {{ item.insight }}
                     </span>
@@ -27,8 +27,6 @@
 
 import { useStorage } from '@vueuse/core';
 const history = useStorage('history', [])
-// sort history by date
-history.value.sort((a, b) => new Date(b.date) - new Date(a.date))
 
 const removeItem = (index) => {
     history.value.splice(index, 1)
