@@ -1,6 +1,7 @@
 <template>
   <main class="min-h-screen">
-    <AppBarCode/>
+    <!-- <AppBarCode/> -->
+    <AppAccueil/>
   </main>
 </template>
 

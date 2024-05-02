@@ -1,5 +1,5 @@
 <template>
-  <div class="container space-y-10 ">
+  <div class="space-y-10 ">
 
     <section>
       <h1 class="text-primary">AIDONS</h1>
@@ -11,12 +11,17 @@
     <p class="text-sm text-gray-500 space-y-2">
       Exemples :
       <span v-for="code in barCodeExamples" :key="code" @click="decodedText = code"
-        class="cursor-pointer text-primary-700 hover:text-primary-500 m-2">{{ code }}</span>
+        class="cursor-pointer text-primary-700 hover:text-primary-500 m-2">{{ code }}
+      </span>
 
       <!-- Input principal - code barre -->
-      <UInput v-model="decodedText" placeholder="Code barre" icon="i-lucide-barcode" size="xl"
+      <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner avec la caméra" icon="i-lucide-barcode" size="xl"
         class="[&>*]:tracking-[3px]" />
     </p>
+
+    <div class="bg-slate-500/10 p-2 rounded-lg">
+      <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre -->
+    </div>
 
     <p class="flex items-center gap-4 [&>*]:flex [&>*]:items-center [&>*]:gap-2">
       Voir sur
@@ -73,29 +78,6 @@
       </form>
     </div>
 
-    <div>
-      <UDivider label="Reconnaissance en temps réel" />
-      <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre -->
-    </div>
-    <div>
-      <span class="text-primary">Autres liens</span>
-      <ul class="pl-3 [&>*:hover]:text-primary transition-all" :class="{ 'opacity-30': !decodedText }">
-        <li v-for="(value, key) in links" :key="key" class="flex items-center-center gap-2 m-2">
-          <UAvatar :src="getLogo(value)" class="w-6 h-6" size="xs" :alt="'logo ' + value" />
-          <a :href="value + decodedText" target="_blank">{{ key }}</a>
-        </li>
-      </ul>
-    </div>
-
-    <div>
-      <p class="text-primary"> Image de couverture</p>
-      <img :src="coverImageUrl + decodedText + '-M.jpg'" alt="cover" />
-    </div>
-
-    <div v-if="openLibData">
-      <p class="text-primary">Résultat Open Library</p>
-      <pre class="max-w-[100vw] overflow-x-scroll">{{ openLibData }}</pre>
-    </div>
   </div>
 </template>
 
@@ -209,41 +191,14 @@ const backendForm = ref(null)
 const waitingBackend = ref(false)
 const handleSubmit = () => {
   waitingBackend.value = true
-  console.log('handleSubmit', backendForm.value)
   fetch('https://aidons-backend.vercel.app/barcode', {
     method: 'POST',
     body: new FormData(backendForm.value),
   })
     .then(response => response.json())
-    .then(data => data && data.code && (decodedText.value = data.code))
+    .then(data => data?.code && (decodedText.value = data.code))
     .catch(err => error.value = err)
     .finally(() => waitingBackend.value = false)
 }
 
 </script>
-
-<style>
-@keyframes appear {
-  from {
-    opacity: 0;
-    scale: .8
-  }
-
-  to {
-    opacity: 1;
-    scale: 1
-  }
-}
-
-.container>* {
-  animation: appear linear both;
-  animation-timeline: view();
-  animation-range: entry 25% cover 50%;
-}
-
-@media (prefers-reduced-motion) {
-  .container>* {
-    animation: none;
-  }
-}
-</style>
