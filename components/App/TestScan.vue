@@ -1,6 +1,6 @@
 <template>
     <div class="space-y-7">
-    <div class="bg-slate-500/25 p-2 rounded-lg">
+    <div class="bg-slate-500/25 p-2 rounded-lg max-h-[60vh] overflow-hidden">
         <qrcode-stream v-if="isCameraOpen" :formats @detect="onDetect" />
     </div>
         <!-- <div class="flex items-center gap-2">
