@@ -1,6 +1,8 @@
 <template>
     <div class="space-y-7">
+    <div class="bg-slate-500/25 p-2 rounded-lg">
         <qrcode-stream v-if="isCameraOpen" :formats @detect="onDetect" />
+    </div>
         <!-- <div class="flex items-center gap-2">
             <UToggle v-model="isCameraOpen" id = "toggle-camera" on-icon="i-lucide-camera" size = "xl"/>
             <label for = "toggle-camera" class="cursor-pointer">{{ isCameraOpen ? 'Désactiver' : 'Activer' }} la caméra</label>

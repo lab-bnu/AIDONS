@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-10 ">
+  <div class="space-y-7 ">
 
     <section>
       <h1 class="text-primary">AIDONS</h1>
@@ -19,9 +19,7 @@
         class="[&>*]:tracking-[3px]" />
     </p>
 
-    <div class="bg-slate-500/10 p-2 rounded-lg">
       <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre -->
-    </div>
 
     <p class="flex items-center gap-4 [&>*]:flex [&>*]:items-center [&>*]:gap-2">
       Voir sur
