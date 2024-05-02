@@ -24,7 +24,7 @@
       </ul>
     </nav>
 
-    <AppThemeToggle class="absolute text-right right-2 top-2 z-10 bg-slate-500/25 rounded-full h-10 "/>
+    <AppThemeToggle class="absolute text-right right-2 top-6 z-10 bg-slate-500/25 rounded-full h-8 w-8 justify-center "/>
 
   </div>
 </template>

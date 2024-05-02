@@ -3,7 +3,7 @@
 
     <section>
       <h1 class="text-primary">AIDONS</h1>
-      <h2 class="tracking-wider opacity-80 italic">Aide à l'instruction de documents par l'IA</h2>
+      <h2 class="tracking-wider opacity-80 italic mt-1">Aide à l'instruction de documents par l'IA</h2>
     </section>
 
     <p v-if="error" class="text-red-500">{{ error }}</p>
@@ -23,7 +23,7 @@
 
       <a :href="links['Biblio.bnu'] + decodedText" target="_blank"
         alt = "voir sur Biblio.bnu" title = "voir sur Biblio.bnu"
-        class="absolute top-1 right-3" :aria-disabled="!decodedText"
+        class="absolute top-[6px] right-3" :aria-disabled="!decodedText"
         :class="{ 'opacity-30': !decodedText }">
         <UAvatar :src="getLogo(links['Biblio.bnu'])"  size="sm" :alt="'logo ' + links['Biblio.bnu']" imgClass = "border-2 border-gray-200 p-[2px]" />
       </a>
@@ -37,7 +37,7 @@
     <div>
       <UDivider label="Notice" />
       <!-- <div v-if="sudocNotice" class="bg-blue-500/10 p-4 mt-1 rounded-lg"> -->
-      <div v-if="sudocNotice" class="bg-gradient-to-tr from-blue-950/10 to-blue-950/20 p-4 mt-1 rounded-lg">
+      <div v-if="sudocNotice" class="bg-gradient-to-tr from-blue-600/40 to-blue-700/30 p-4 mt-1 rounded-lg">
         <ul>
           <li v-for="field in tag200" :key="field">
             <p v-for="subfield in field.subfield" :key="subfield" ref="tag200">
