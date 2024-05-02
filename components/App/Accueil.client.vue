@@ -8,8 +8,9 @@
 
     <p v-if="error" class="text-red-500">{{ error }}</p>
 
-    <p class="text-sm text-gray-500 space-y-2">
-      Exemples :
+    <p v-if = "!envProd" 
+      class="text-sm text-gray-500 space-y-2">
+      Exemples (mode développement ) :
       <span v-for="code in barCodeExamples" :key="code" @click="decodedText = code"
         class="cursor-pointer text-primary-700 hover:text-primary-500 m-2">{{ code }}
       </span>
