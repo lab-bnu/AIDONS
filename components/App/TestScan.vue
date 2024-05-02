@@ -9,18 +9,18 @@
             <label for = "toggle-camera" class="cursor-pointer">{{ isCameraOpen ? 'Désactiver' : 'Activer' }} la caméra</label>
         </div> -->
         <div class="flex justify-between">
-            <NuxtLink to="/historique" class="w-24 h-24 justify-center rounded-md bg-gradient-to-tr from-slate-300/25 to-slate-500/25">
+            <NuxtLink to="/historique" class="w-24 h-24 justify-center rounded-md bg-gradient-to-tr from-blue-900 to-blue-900/70">
                 <UButton title="Historique" alt="Historique" class="w-24 h-24 justify-center" rounded variant="ghost">
                     <UIcon name="i-lucide-history" class="w-10 h-10" />
                 </UButton>
             </NuxtLink>
             <!-- :icon="'i-lucide-cloud-upload'" -->
             <UButton @click="triggerFileInput" title="Importer un fichier" alt="Importer un fichier"
-                class=" w-24 h-24 justify-center bg-gradient-to-tr from-slate-300/30 to-slate-500/30" rounded variant="ghost">
+                class=" w-24 h-24 justify-center bg-gradient-to-tr from-blue-900 to-blue-900/70" rounded variant="ghost">
                 <UIcon name="i-lucide-upload" class="w-10 h-10" />
             </UButton>
             <UButton @click="isCameraOpen = !isCameraOpen" title="Activer / déscativer la caméra" alt="Activer ou désactiver la caméra"
-                class="w-24 h-24 justify-center bg-gradient-to-tr from-slate-300/25 to-slate-500/25" rounded variant="ghost">
+                class="w-24 h-24 justify-center bg-gradient-to-tr from-blue-900 to-blue-900/70" rounded variant="ghost">
                 <UIcon :name="isCameraOpen ? 'i-lucide-camera-off' : 'i-lucide-camera'" class="w-10 h-10" />
             </UButton>
         </div>
@@ -33,6 +33,12 @@
 import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader'
 const fileInput = ref(null)
 const formats = ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_39', 'code_128', 'code_93', 'itf', 'qr_code']
+
+const buttons = [
+    { icon: 'i-lucide-history', title: 'Historique', to: '/historique' },
+    { icon: 'i-lucide-upload', title: 'Importer un fichier' },
+    { icon: 'i-lucide-camera', title: 'Activer / déscativer la caméra' }
+]
 
 const props = defineProps({
     openCam: {
