@@ -34,7 +34,7 @@
     <div>
       <UDivider label="Notice" />
       <!-- <div v-if="sudocNotice" class="bg-blue-500/10 p-4 mt-1 rounded-lg"> -->
-      <div v-if="sudocNotice" class="bg-gradient-to-tr from-blue-950/20 to-blue-950/40 p-4 mt-1 rounded-lg">
+      <div v-if="sudocNotice" class="bg-gradient-to-tr from-gray-300/20 to-transparent p-4 mt-1 rounded-lg">
         <ul>
           <li v-for="field in tag200" :key="field">
             <p v-for="subfield in field.subfield" :key="subfield" ref="tag200">
