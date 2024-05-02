@@ -1,6 +1,6 @@
 <template>
     <div class="space-y-7">
-        <div class="bg-slate-500/25 p-2 rounded-lg h-[40vh] overflow-hidden grid justify-center items-center">
+        <div class=" p-2 rounded-lg h-[40vh] overflow-hidden grid justify-center items-center bg-gradient-to-tr from-slate-700/25 to-slate-900/25">
             <qrcode-stream v-if="isCameraOpen" :formats @detect="onDetect" />
             <UIcon v-else name="i-lucide-book-open" class="w-24 h-24 text-gray-700"/>
         </div>
@@ -8,7 +8,7 @@
             <UToggle v-model="isCameraOpen" id = "toggle-camera" on-icon="i-lucide-camera" size = "xl"/>
             <label for = "toggle-camera" class="cursor-pointer">{{ isCameraOpen ? 'Désactiver' : 'Activer' }} la caméra</label>
         </div> -->
-        <div class="flex justify-between text-xl">
+        <div class="flex justify-between">
 
             <NuxtLink to="/historique" class="bg-slate-500/25 w-24 h-24 justify-center rounded-md">
                 <UButton title="Historique" alt="Historique" class="w-24 h-24 justify-center" rounded variant="ghost">
@@ -21,8 +21,8 @@
                 <UIcon name="i-lucide-upload" class="w-10 h-10" />
             </UButton>
 
-            <UButton @click="isCameraOpen = !isCameraOpen" class="bg-slate-500/25 w-24 h-24 justify-center"
-                title="Activer / déscativer la caméra" alt="Activer ou désactiver la caméra" rounded variant="ghost">
+            <UButton @click="isCameraOpen = !isCameraOpen" title="Activer / déscativer la caméra" alt="Activer ou désactiver la caméra"
+                class="bg-slate-500/25 w-24 h-24 justify-center" rounded variant="ghost">
                 <UIcon :name="isCameraOpen ? 'i-lucide-camera-off' : 'i-lucide-camera'" class="w-10 h-10" />
             </UButton>
         </div>
