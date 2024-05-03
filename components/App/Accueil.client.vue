@@ -3,7 +3,7 @@
 
     <section>
       <h1 class="text-primary text-2xl flex items-center gap-2">
-        <UIcon name="i-lucide-library" class="mb-[3px]"/>AIDONS</h1>
+        <UIcon name="i-lucide-library" class="mb-[2px]"/>AIDONS</h1>
       <h2 class="opacity-80 mt-1 text-xl">Aide à l'instruction de documents</h2>
     </section>
 
