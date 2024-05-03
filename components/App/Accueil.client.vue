@@ -2,7 +2,8 @@
   <div class="space-y-7 ">
 
     <section>
-      <h1 class="text-primary text-2xl">AIDONS</h1>
+      <h1 class="text-primary text-2xl flex items-center gap-2">
+        <UIcon name="i-lucide-library" class="mb-[3px]"/>AIDONS</h1>
       <h2 class="opacity-80 mt-1 text-xl">Aide à l'instruction de documents</h2>
     </section>
 
@@ -18,8 +19,8 @@
     <!-- Input principal - code barre -->
     <div class="relative">
 
-      <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner" icon="i-lucide-barcode" size="xl" variant = "gray" 
-        :ui = "{variant: { gray: 'bg-blue-950/70 !text-white'} }"/>
+      <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner" icon="i-lucide-barcode" size="xl" :variant = "'none'" 
+        :ui = "{variant: { none: 'bg-blue-950/70 !text-white'} }"/>
 
       <a :href="links['Biblio.bnu'] + decodedText" target="_blank"
         alt = "voir sur Biblio.bnu" title = "voir sur Biblio.bnu"
@@ -167,7 +168,8 @@ function parseSudocResult(data) {
 }
 
 // Notif si document trouvé à la BNU
-const foundInBNU = computed(() => !bibsPending.value && bibsData.value?.some(lib => lib.shortname === 'STRASBOURG-BNU'))
+const checkFoundBnu = () => !bibsPending.value && bibsData.value?.some(lib => lib.shortname === 'STRASBOURG-BNU')
+const foundInBNU = computed(checkFoundBnu);
 watch(foundInBNU, newValue => {
   if (newValue) toastNotif.add({ title: 'Document trouvé à la BNU', type: 'success', icon: 'i-lucide-book-open-check' })
 })
@@ -175,8 +177,10 @@ watch(foundInBNU, newValue => {
 const bookTitle = computed(() => tag200.value[0].subfield[0]['#text'] ?? null)  // titre de la notice (tag 200)
 // historique de recherche - à chque notice trouvée
 const history = useStorage('history', [])
-watch(sudocNotice, newValue => {
-  if (newValue) {
+watch(bibsPending, async newValue => {
+  console.log('watch sudocNotice', newValue, 'found in BNU', foundInBNU.value)
+  if (! newValue && sudocNotice.value) {
+    await nextTick()
     toastNotif.add({ title: `Notice trouvée - ${bookTitle.value}`, type: 'success', icon: 'i-lucide-book' })
     history.value.push({
       isbn: decodedText.value,

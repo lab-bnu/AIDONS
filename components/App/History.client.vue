@@ -4,7 +4,7 @@
             <ul class="my-animate-children-appear" v-auto-animate >
                 <!-- <UTable :rows="history" /> -->
                 <li v-for="item in history.slice().reverse()" :key="item.isbn"
-                    class="flex items-center gap-3 hover:!bg-slate-400/10 rounded-md odd:bg-gray-500/10 p-2 ">
+                    class="flex items-center gap-3 hover:!bg-slate-400/10 rounded-md odd:bg-gray-500/10 p-2 " :class="{'!bg-primary/25' : item.bnu}">
                     <span class="basis-50">
                         {{ item.insight }}
                     </span>

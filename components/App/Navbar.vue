@@ -24,7 +24,25 @@
       </ul>
     </nav>
 
-    <AppThemeToggle class="absolute text-right right-2 top-6 z-10 bg-slate-500/25 rounded-full h-8 w-8 justify-center "/>
+    <div class= "absolute text-right right-2 top-6 z-10 ">
+
+      <AppThemeToggle
+        class="rounded-full h-8 w-8 justify-center bg-slate-500/25 " />
+        
+        <!-- EN COURS -->
+        <!-- MODAL D'AIDE -->
+
+      <!-- <UTooltip :text="`Mode ${isDark ? 'clair' : 'sombre'}`" :ui="{ popper: { strategy: 'absolute' } }" class="rounded-full h-8 w-8 justify-center bg-slate-500/25 " >
+        <button
+          class="relative px-3 py-4 flex items-center justify-center transition hover:text-primary-500 dark:hover:text-primary-400"
+          @click="isDark = !isDark">
+          <Icon aria-hidden="true" :name="'i-lucide-info'" class="w-5 h-5" />
+          <span class="sr-only">Mode
+            {{ isDark ? 'clair' : 'sombre' }}
+          </span>
+        </button>
+      </UTooltip> -->
+    </div>
 
   </div>
 </template>
