@@ -3,7 +3,7 @@
 
     <section>
       <h1 class="text-primary text-2xl">AIDONS</h1>
-      <h2 class="opacity-80 mt-1 text-xl">Aide à l'instruction de documents par l'IA</h2>
+      <h2 class="opacity-80 mt-1 text-xl">Aide à l'instruction de documents</h2>
     </section>
 
     <p v-if="error" class="text-red-500">{{ error }}</p>
@@ -50,7 +50,7 @@
     </div>
 
     <div>
-      <UDivider label="BU où trouver le document" />
+      <!-- <UDivider label="BU où trouver le document" /> -->
       <p v-show="decodedText" :class="{ 'text-primary': foundInBNU }">
         {{ foundInBNU ? " ✓ Document trouvé à la BNU" : "Document non trouvé à la BNU" }}
       </p>
