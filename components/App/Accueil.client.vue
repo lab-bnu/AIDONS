@@ -2,8 +2,8 @@
   <div class="space-y-7 ">
 
     <section>
-      <h1 class="text-primary">AIDONS</h1>
-      <h2 class="opacity-80 mt-1">Aide à l'instruction de documents par l'IA</h2>
+      <h1 class="text-primary text-2xl">AIDONS</h1>
+      <h2 class="opacity-80 mt-1 text-xl">Aide à l'instruction de documents par l'IA</h2>
     </section>
 
     <p v-if="error" class="text-red-500">{{ error }}</p>
@@ -18,7 +18,8 @@
     <!-- Input principal - code barre -->
     <div class="relative">
 
-      <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner" icon="i-lucide-barcode" size="xl" />
+      <UInput v-model="decodedText" placeholder="Saisir un isbn ou scanner" icon="i-lucide-barcode" size="xl" variant = "gray" 
+        :ui = "{variant: { gray: 'bg-blue-950/70 !text-white'} }"/>
 
       <a :href="links['Biblio.bnu'] + decodedText" target="_blank"
         alt = "voir sur Biblio.bnu" title = "voir sur Biblio.bnu"
