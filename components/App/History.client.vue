@@ -11,8 +11,8 @@
             <ul class="my-animate-children-appear" v-auto-animate>
                 <li v-for="item in filteredShownHistory.slice().reverse()" :key="item.date"
                     class="flex items-center gap-4 rounded-md odd:bg-gray-500/10 p-2 mb-2" :class="{'!bg-primary/25' : item.bnu}">
-                    <UIcon @click="item.fav = !item.fav" :class="{'opacity-30': !item.fav, 'scale-125': item.fav}" 
-                        name = "i-lucide-book-marked" class="transition-all"/>
+                    <UIcon @click="item.fav = !item.fav" name = "i-lucide-book-marked" 
+                        :class="{'my-animation-pulse': item.fav, 'opacity-30': !item.fav}" />
                     <span class="basis-52 break-all flex-1">
                         {{ item.titre ?? item.insight }}
                     </span>
@@ -30,11 +30,9 @@
         </section>
 
         <section>
-            <iframe class="m-auto"src = "https://bnufr-my.sharepoint.com/personal/arthurb_bnu_fr/_layouts/15/Doc.aspx?sourcedoc={894cd703-944b-49a8-8125-ba43376107ee}&action=edit&wd=target%28test.one%7C9a20cc82-254f-4b7e-bc62-a0be8c028066%2FPage%20sans%20titre%7Cc5102e59-104a-4625-bdc0-10aba64b5015%2F%29&wdorigin=NavigationUrl">
-                </iframe>
+            <!-- <iframe class="m-auto"src = "https://bnufr-my.sharepoint.com/:o:/g/personal/arthurb_bnu_fr/EgPXTIlLlKhJgSW6QzdhB-4BY54aP5v-Kg7-aQGEsj68fQ?e=tFF1zo"></iframe>
             <iframe class="m-auto"src = "https://bnufr-my.sharepoint.com/:o:/g/personal/arthurb_bnu_fr/EgPXTIlLlKhJgSW6QzdhB-4BY54aP5v-Kg7-aQGEsj68fQ?e=T6ezCE">
-
-            </iframe>
+            </iframe> -->
         </section>
     </main>
 </template>
@@ -68,6 +66,25 @@ const props = defineProps({
 
 
 <style scoped>
+
+
+.my-animation-pulse {
+    animation: pulse .3s ease;
+  }
+  
+  @keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.6);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
 @keyframes appear {
     from {
         opacity: 0;
