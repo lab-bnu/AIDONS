@@ -97,12 +97,13 @@
 </template>
 
 <script setup>
-import { StreamBarcodeReader, ImageBarcodeReader } from "vue-barcode-reader";
 import * as parser from 'fast-xml-parser';
+const xmlParser = new parser.XMLParser({ ignoreAttributes: false });
+
 import { useStorage } from '@vueuse/core';
 const toastNotif = useToast();
-const xmlParser = new parser.XMLParser({ ignoreAttributes: false });
 const envProd = import.meta.env.PROD;
+const { vibrate, stop, isSupported } = useVibrate({ pattern: [300, 100, 300] })
 
 const props = defineProps({
   code: {
@@ -200,8 +201,10 @@ watchEffect(() => {
     lastNotif.value = decodedText.value
     // Notif code détecté sauf saisie manuelle
     const focused = document.activeElement;
-    if (focused?.type !== 'text') 
+    if (focused?.type !== 'text') {
       toastNotif.add({ title: `Code barre détecté - ${decodedText.value}`, type: 'success' })
+      vibrate()
+    }
   }
 })
 
