@@ -11,7 +11,7 @@
             <ul class="my-animate-children-appear" v-auto-animate>
                 <li v-for="item in filteredShownHistory.slice().reverse()" :key="item.date"
                     class="flex items-center gap-4 rounded-md odd:bg-gray-500/10 p-2 mb-2" :class="{'!bg-primary/25' : item.bnu}">
-                    <UIcon @click="item.fav = !item.fav && vibrate()" name = "i-lucide-book-marked" 
+                    <UIcon @click="item.fav = !item.fav" name = "i-lucide-book-marked" 
                         :class="{'my-animation-pulse': item.fav, 'opacity-30': !item.fav}" />
                     <span class="basis-52 break-all flex-1">
                         {{ item.titre ?? item.insight }}
@@ -51,6 +51,9 @@ const filterSearch = item => item.titre?.toLowerCase().includes(search.value.toL
 const favHistory = computed(() => history.value.filter(item => item.fav))
 const shownHistory = computed(() => favOnly.value ? favHistory.value : history.value)
 const filteredShownHistory = computed(() => !search.value ? shownHistory.value : shownHistory.value.filter(filterSearch))
+
+const nbFav = computed(() => favHistory.value.length)
+watch(() => nbFav.value, vibrate)
 
 const removeItem = index => history.value.splice(index, 1)
 
