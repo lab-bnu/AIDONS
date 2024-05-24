@@ -9,9 +9,7 @@
                 <!-- <UTable :rows="history" /> -->
                 <li v-for="item in (favOnly ? favHistory : history).slice().reverse()" :key="item.date"
                     class="flex items-center gap-3 rounded-md odd:bg-gray-500/10 p-2 mb-2" :class="{'!bg-primary/25' : item.bnu}">
-                    <UIcon @click="toggleFav(history.indexOf(item))" 
-                        :class="{'!opacity-100': item.fav}"
-                        name = "i-lucide-book-marked" class="basis-10  opacity-30" />
+                    <UIcon @click="toggleFav(history.indexOf(item))" :class="{' opacity-30': !item.fav}" name = "i-lucide-book-marked" class="basis-10 w-4 h-4" />
                     <span class="basis-52 break-all ">
                         {{ item.insight }}
                     </span>
