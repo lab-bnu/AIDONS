@@ -1,21 +1,24 @@
 <template>
     <main class=" ">
-        <div class="flex items-center px-4 my-3 gap-3">
-            <UButton @click="favOnly = !favOnly" icon="i-lucide-book-marked" size="sm" color = "white" class="text-md !bg-primary-800/10" variant="ghost" 
-            :class="{'[&>.i-lucide-book-marked]:text-primary-700' : favOnly}" label = "favoris"/>
-            <UButton @click="download(csvConfig)(csv)" icon="i-lucide-download" size="sm" color = "white" class="text-md !bg-primary-800/10" variant="ghost" label = "csv"/>
+        <div class="flex items-center px-4 my-5 gap-3">
+            <UButton label = "favoris" @click="favOnly = !favOnly" 
+                icon="i-lucide-book-marked" size="sm" color = "white" class="text-md !bg-primary-800/10" variant="ghost" 
+                :class="{'[&>.i-lucide-book-marked]:text-primary-700' : favOnly}"/>
+            <UButton label = "csv" @click="download(csvConfig)(csv)" 
+                icon="i-lucide-download" size="sm" color = "white" class="text-md !bg-primary-800/10" 
+                variant="ghost"/>
+                <UInput :placeholder = "`Rechercher ${favOnly ? 'parmi les favoris' : ''}`" icon="i-lucide-search" size="sm" v-model="search" class="flex-1"/>
         </div>
         <section class="mx-auto p-4">
             <ul class="my-animate-children-appear" v-auto-animate>
-                <!-- <UTable :rows="history" /> -->
-                <li v-for="item in (favOnly ? favHistory : history).slice().reverse()" :key="item.date"
+                <li v-for="item in filteredShownHistory.slice().reverse()" :key="item.date"
                     class="flex items-center gap-4 rounded-md odd:bg-gray-500/10 p-2 mb-2" :class="{'!bg-primary/25' : item.bnu}">
-                    <UIcon @click="toggleFav(history.indexOf(item))" :class="{' opacity-30': !item.fav}" name = "i-lucide-book-marked" class="basis- w-4 h-4" />
+                    <UIcon @click="item.fav = !item.fav" :class="{'opacity-30': !item.fav, 'scale-125': item.fav}" 
+                        name = "i-lucide-book-marked" class="transition-all"/>
                     <span class="basis-52 break-all ">
                         {{ item.titre ?? item.insight }}
                     </span>
                     <NuxtLink :to="`/code/${item.isbn}`" class="text-primary underline truncate w-24 basis-10">
-                        <!-- {{ item.isbn }} -->
                         Voir
                     </NuxtLink>
                     <UButton @click="removeItem(history.indexOf(item))" 
@@ -23,13 +26,8 @@
                         class="flex-1 justify-end opacity-70" />
                 </li>
             </ul>
-            <div class="text-gray-500">
-                <div v-if = "!favOnly && !history.length">
-                    Aucun historique de recherche
-                </div>
-                <div v-else-if = "favOnly && !favHistory.length">
-                    Aucun favori pour le moment
-                </div>
+            <div v-if = "!filteredShownHistory.length" class="text-gray-500">
+                {{ favOnly ? 'Aucun favori trouvé' : 'Aucun historique trouvé'}}
             </div>
         </section>
     </main>
@@ -37,24 +35,21 @@
 
 <script setup>
 
-import { useStorage } from '@vueuse/core';
 import { mkConfig, generateCsv, download } from "export-to-csv";
-const csvConfig = mkConfig({ useKeysAsHeaders: true });
-const csv = computed(() =>generateCsv(csvConfig)(history.value))
+const csvConfig = mkConfig({ useKeysAsHeaders: true, fieldSeparator: ';', filename: 'AIdons', useBom: true });
+const csv = computed(() =>generateCsv(csvConfig)(filteredShownHistory.value))
 
+import { useStorage } from '@vueuse/core';
 const history = useStorage('history', [])
 const favOnly = ref(false)
+const filterSearch = item => item.titre?.toLowerCase().includes(search.value.toLowerCase()) 
 const favHistory = computed(() => history.value.filter(item => item.fav))
+const shownHistory = computed(() => favOnly.value ? favHistory.value : history.value)
+const filteredShownHistory = computed(() => !search.value ? shownHistory.value : shownHistory.value.filter(filterSearch))
 
 const removeItem = index => history.value.splice(index, 1)
 
-const toggleFav = index => history.value[index].fav = !history.value[index].fav
-
-const handleFav = (elt, index) => {
-    console.log('handleFav', elt, index)
-    toggleFav(index)
-
-}
+const search = ref('')
 
 const props = defineProps({
   max: {
