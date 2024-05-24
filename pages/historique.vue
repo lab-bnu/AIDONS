@@ -13,5 +13,9 @@ const description = "Affichage et gestion de l'historique de recherche";
 useSeoMeta({
     title: "Mon historique - AIDONS",
     description,
+    ogTitle: "Mon historique - AIDONS",
+    ogDescription: description,
+    ogImage: "https://lab-aidons.vercel.app/app.png",
 });
+
 </script>

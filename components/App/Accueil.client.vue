@@ -197,7 +197,10 @@ const lastNotif = ref('')
 watchEffect(() => {
   if (decodedText.value && decodedText.value !== lastNotif.value) {
     lastNotif.value = decodedText.value
-    toastNotif.add({ title: `Code barre détecté - ${decodedText.value}`, type: 'success' })
+    // Notif code détecté sauf saisie manuelle
+    const focused = document.activeElement;
+    if (focused?.type !== 'text') 
+      toastNotif.add({ title: `Code barre détecté - ${decodedText.value}`, type: 'success' })
   }
 })
 
