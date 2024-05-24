@@ -11,7 +11,7 @@
             <ul class="my-animate-children-appear" v-auto-animate>
                 <li v-for="item in filteredShownHistory.slice().reverse()" :key="item.date"
                     class="flex items-center gap-4 rounded-md odd:bg-gray-500/10 p-2 mb-2" :class="{'!bg-primary/25' : item.bnu}">
-                    <UIcon @click="item.fav = !item.fav" name = "i-lucide-book-marked" 
+                    <UIcon @click="item.fav = !item.fav && vibrate()" name = "i-lucide-book-marked" 
                         :class="{'my-animation-pulse': item.fav, 'opacity-30': !item.fav}" />
                     <span class="basis-52 break-all flex-1">
                         {{ item.titre ?? item.insight }}
@@ -38,6 +38,7 @@
 </template>
 
 <script setup>
+const { vibrate, stop, isSupported } = useVibrate({ pattern: [300, 100, 300] })
 
 import { mkConfig, generateCsv, download } from "export-to-csv";
 const csvConfig = mkConfig({ useKeysAsHeaders: true, fieldSeparator: ';', filename: 'AIdons', useBom: true });
