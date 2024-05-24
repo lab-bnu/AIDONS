@@ -1,11 +1,10 @@
 <template>
     <main class=" ">
         <div class="flex items-center px-4 my-5 gap-2">
-            <UButton label = "favoris" @click="favOnly = !favOnly" 
+            <UButton label = "favoris"  @click="favOnly = !favOnly" 
                 icon="i-lucide-book-marked" size="sm" :color = "favOnly ? 'primary' : 'white'" class="text-md !bg-primary-800/10" variant="ghost"/>
-            <UButton label = "csv" @click="download(csvConfig)(csv)" 
-                icon="i-lucide-download" size="sm" color = "white" class="text-md !bg-primary-800/10" 
-                variant="ghost"/>
+            <UButton label = "csv"      @click="download(csvConfig)(csv)" 
+                icon="i-lucide-download" size="sm" color = "white" class="text-md !bg-primary-800/10" variant="ghost"/>
             <UInput :placeholder = "`Rechercher ${favOnly ? 'parmi les favoris' : ''}`" icon="i-lucide-search" size="sm" v-model="search" class="flex-1"/>
         </div>
         <section class="mx-auto p-4">
@@ -28,6 +27,12 @@
             <div v-if = "!filteredShownHistory.length" class="text-gray-500">
                 {{ favOnly ? 'Aucun favori trouvé' : 'Aucun historique trouvé'}}
             </div>
+        </section>
+
+        <section>
+            <iframe class="m-auto"src = "https://bnufr-my.sharepoint.com/:o:/g/personal/arthurb_bnu_fr/EgPXTIlLlKhJgSW6QzdhB-4BY54aP5v-Kg7-aQGEsj68fQ?e=T6ezCE">
+
+            </iframe>
         </section>
     </main>
 </template>
