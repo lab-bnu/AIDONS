@@ -30,6 +30,8 @@
         </section>
 
         <section>
+            <iframe class="m-auto"src = "https://bnufr-my.sharepoint.com/personal/arthurb_bnu_fr/_layouts/15/Doc.aspx?sourcedoc={894cd703-944b-49a8-8125-ba43376107ee}&action=edit&wd=target%28test.one%7C9a20cc82-254f-4b7e-bc62-a0be8c028066%2FPage%20sans%20titre%7Cc5102e59-104a-4625-bdc0-10aba64b5015%2F%29&wdorigin=NavigationUrl">
+                </iframe>
             <iframe class="m-auto"src = "https://bnufr-my.sharepoint.com/:o:/g/personal/arthurb_bnu_fr/EgPXTIlLlKhJgSW6QzdhB-4BY54aP5v-Kg7-aQGEsj68fQ?e=T6ezCE">
 
             </iframe>
