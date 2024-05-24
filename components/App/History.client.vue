@@ -14,7 +14,7 @@
                     class="flex items-center gap-4 rounded-md odd:bg-gray-500/10 p-2 mb-2" :class="{'!bg-primary/25' : item.bnu}">
                     <UIcon @click="item.fav = !item.fav" :class="{'opacity-30': !item.fav, 'scale-125': item.fav}" 
                         name = "i-lucide-book-marked" class="transition-all"/>
-                    <span class="basis-52 break-all ">
+                    <span class="basis-52 break-all flex-1">
                         {{ item.titre ?? item.insight }}
                     </span>
                     <NuxtLink :to="`/code/${item.isbn}`" class="text-primary underline truncate w-24 basis-10">
@@ -22,7 +22,7 @@
                     </NuxtLink>
                     <UButton @click="removeItem(history.indexOf(item))" 
                         icon="i-heroicons-trash" size="xs" variant="link" color = "red"
-                        class="flex-1 justify-end opacity-70" />
+                        class="ml-auto justify-self-end justify-end opacity-70" />
                 </li>
             </ul>
             <div v-if = "!filteredShownHistory.length" class="text-gray-500">
