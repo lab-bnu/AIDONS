@@ -1,8 +1,9 @@
 <template>
     <main class=" ">
-        <div class="flex items-center px-4 my-1">
+        <div class="flex items-center px-4 my-3 gap-3">
             <UButton @click="favOnly = !favOnly" icon="i-lucide-book-marked" size="sm" color = "white" class="text-md !bg-primary-800/10" variant="ghost" 
             :class="{'[&>.i-lucide-book-marked]:text-primary-700' : favOnly}" label = "favoris"/>
+            <UButton @click="download(csvConfig)(csv)" icon="i-lucide-download" size="sm" color = "white" class="text-md !bg-primary-800/10" variant="ghost" label = "csv"/>
         </div>
         <section class="mx-auto p-4">
             <ul class="my-animate-children-appear" v-auto-animate>
@@ -11,15 +12,15 @@
                     class="flex items-center gap-3 rounded-md odd:bg-gray-500/10 p-2 mb-2" :class="{'!bg-primary/25' : item.bnu}">
                     <UIcon @click="toggleFav(history.indexOf(item))" :class="{' opacity-30': !item.fav}" name = "i-lucide-book-marked" class="basis-10 w-4 h-4" />
                     <span class="basis-52 break-all ">
-                        {{ item.insight }}
+                        {{ item.titre }}
                     </span>
                     <NuxtLink :to="`/code/${item.isbn}`" class="text-primary underline truncate w-24 basis-10">
                         <!-- {{ item.isbn }} -->
                         Voir
                     </NuxtLink>
                     <UButton @click="removeItem(history.indexOf(item))" 
-                        icon="i-heroicons-trash" size="xs" variant="link" 
-                        class="flex-1 justify-end" />
+                        icon="i-heroicons-trash" size="xs" variant="link" color = "red"
+                        class="flex-1 justify-end opacity-70" />
                 </li>
             </ul>
             <div class="text-gray-500">
@@ -37,6 +38,10 @@
 <script setup>
 
 import { useStorage } from '@vueuse/core';
+import { mkConfig, generateCsv, download } from "export-to-csv";
+const csvConfig = mkConfig({ useKeysAsHeaders: true });
+const csv = computed(() =>generateCsv(csvConfig)(history.value))
+
 const history = useStorage('history', [])
 const favOnly = ref(false)
 const favHistory = computed(() => history.value.filter(item => item.fav))

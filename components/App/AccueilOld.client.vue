@@ -188,7 +188,7 @@ watch(sudocNotice, newValue => {
       ppn: ppn.value,
       date: new Date().toLocaleString(),
       bnu: foundInBNU.value,
-      insight: bookTitle.value
+      titre: bookTitle.value
     })
   }
 })
