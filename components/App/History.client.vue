@@ -1,13 +1,12 @@
 <template>
     <main class=" ">
-        <div class="flex items-center px-4 my-5 gap-3">
+        <div class="flex items-center px-4 my-5 gap-2">
             <UButton label = "favoris" @click="favOnly = !favOnly" 
-                icon="i-lucide-book-marked" size="sm" color = "white" class="text-md !bg-primary-800/10" variant="ghost" 
-                :class="{'[&>.i-lucide-book-marked]:text-primary-700' : favOnly}"/>
+                icon="i-lucide-book-marked" size="sm" :color = "favOnly ? 'primary' : 'white'" class="text-md !bg-primary-800/10" variant="ghost"/>
             <UButton label = "csv" @click="download(csvConfig)(csv)" 
                 icon="i-lucide-download" size="sm" color = "white" class="text-md !bg-primary-800/10" 
                 variant="ghost"/>
-                <UInput :placeholder = "`Rechercher ${favOnly ? 'parmi les favoris' : ''}`" icon="i-lucide-search" size="sm" v-model="search" class="flex-1"/>
+            <UInput :placeholder = "`Rechercher ${favOnly ? 'parmi les favoris' : ''}`" icon="i-lucide-search" size="sm" v-model="search" class="flex-1"/>
         </div>
         <section class="mx-auto p-4">
             <ul class="my-animate-children-appear" v-auto-animate>
