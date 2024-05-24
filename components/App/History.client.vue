@@ -9,10 +9,10 @@
             <ul class="my-animate-children-appear" v-auto-animate>
                 <!-- <UTable :rows="history" /> -->
                 <li v-for="item in (favOnly ? favHistory : history).slice().reverse()" :key="item.date"
-                    class="flex items-center gap-3 rounded-md odd:bg-gray-500/10 p-2 mb-2" :class="{'!bg-primary/25' : item.bnu}">
-                    <UIcon @click="toggleFav(history.indexOf(item))" :class="{' opacity-30': !item.fav}" name = "i-lucide-book-marked" class="basis-10 w-4 h-4" />
+                    class="flex items-center gap-4 rounded-md odd:bg-gray-500/10 p-2 mb-2" :class="{'!bg-primary/25' : item.bnu}">
+                    <UIcon @click="toggleFav(history.indexOf(item))" :class="{' opacity-30': !item.fav}" name = "i-lucide-book-marked" class="basis- w-4 h-4" />
                     <span class="basis-52 break-all ">
-                        {{ item.titre }}
+                        {{ item.titre ?? item.insight }}
                     </span>
                     <NuxtLink :to="`/code/${item.isbn}`" class="text-primary underline truncate w-24 basis-10">
                         <!-- {{ item.isbn }} -->
