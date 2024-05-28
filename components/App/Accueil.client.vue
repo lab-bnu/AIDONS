@@ -14,7 +14,6 @@
       <span v-for="code in barCodeExamples" :key="code" @click="decodedText = code"
         class="cursor-pointer text-primary-700 hover:text-primary-500 m-2">{{ code }}
       </span>
-
     </p>
     <!-- Input principal - code barre -->
     <div class="relative">
@@ -179,7 +178,6 @@ const bookTitle = computed(() => tag200.value[0].subfield[0]['#text'] ?? null)  
 // historique de recherche - à chque notice trouvée
 const history = useStorage('history', [])
 watch(bibsPending, async newValue => {
-  console.log('watch sudocNotice', newValue, 'found in BNU', foundInBNU.value)
   if (! newValue && sudocNotice.value) {
     await nextTick()
     toastNotif.add({ title: `Notice trouvée - ${bookTitle.value}`, type: 'success', icon: 'i-lucide-book' })

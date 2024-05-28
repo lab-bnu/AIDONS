@@ -1,5 +1,5 @@
 <template>
-    <main class=" ">
+    <main>
         <div class="flex items-center px-4 my-5 gap-2">
             <UButton label = "favoris"  @click="favOnly = !favOnly" 
                 icon="i-lucide-book-marked" size="sm" :color = "favOnly ? 'primary' : 'white'" class="text-md !bg-primary-800/10" variant="ghost"/>
@@ -9,13 +9,17 @@
         </div>
         <section class="mx-auto p-4">
             <ul class="my-animate-children-appear" v-auto-animate>
+                <!-- :class="{'!bg-primary/25' : item.bnu}"> -->
                 <li v-for="item in filteredShownHistory.slice().reverse()" :key="item.date"
-                    class="flex items-center gap-4 rounded-md odd:bg-gray-500/10 p-2 mb-2" :class="{'!bg-primary/25' : item.bnu}">
+                    class="flex items-center gap-4 rounded-md odd:bg-gray-500/10 p-2 mb-2" >
                     <UIcon @click="item.fav = !item.fav" name = "i-lucide-book-marked" 
                         :class="{'my-animation-pulse': item.fav, 'opacity-30': !item.fav}" />
                     <span class="basis-52 break-all flex-1">
                         {{ item.titre ?? item.insight }}
                     </span>
+                    <UChip v-if="item.bnu" class="bg-primary-100/50 rounded p-1 invert-1 dark:!invert-0">
+                        <NuxtImg src = "bnu-logo-white.svg" alt = "BNU" class="w-8 h-8" />
+                    </UChip>
                     <NuxtLink :to="`/code/${item.isbn}`" class="text-primary underline truncate w-24 basis-10">
                         Voir
                     </NuxtLink>
@@ -47,7 +51,7 @@ const csv = computed(() =>generateCsv(csvConfig)(filteredShownHistory.value))
 import { useStorage } from '@vueuse/core';
 const history = useStorage('history', [])
 const favOnly = ref(false)
-const filterSearch = item => item.titre?.toLowerCase().includes(search.value.toLowerCase()) 
+const filterSearch = item => (item.titre ?? item.insight)?.toLowerCase().includes(search.value.toLowerCase()) 
 const favHistory = computed(() => history.value.filter(item => item.fav))
 const shownHistory = computed(() => favOnly.value ? favHistory.value : history.value)
 const filteredShownHistory = computed(() => !search.value ? shownHistory.value : shownHistory.value.filter(filterSearch))
