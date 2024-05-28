@@ -1,5 +1,7 @@
+
+import AccueilTestClient from '~/components/App/AccueilTest.client.vue';
 <template>
 
-    <ScanHtml5QrCode/>
+    <AppAccueilTest/>
 
 </template>
