@@ -17,7 +17,7 @@
                     <span class="basis-52 break-all flex-1">
                         {{ item.titre ?? item.insight }}
                     </span>
-                    <UChip v-if="item.bnu" class="bg-primary-100/50 rounded p-1 invert-0 dark:!invert-1">
+                    <UChip v-if="item.bnu" class="bg-gray-700/30 rounded p-1">
                         <NuxtImg src = "bnu-logo-white.svg" alt = "BNU" class="w-8 h-8" />
                     </UChip>
                     <NuxtLink :to="`/code/${item.isbn}`" class="text-primary underline truncate w-24 basis-10">
