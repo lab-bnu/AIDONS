@@ -8,16 +8,16 @@
             <UInput :placeholder = "`Rechercher ${favOnly ? 'parmi les favoris' : ''}`" icon="i-lucide-search" size="sm" v-model="search" class="flex-1"/>
         </div>
         <section class="mx-auto p-4">
-            <ul class="my-animate-children-appear" v-auto-animate>
+            <ul class="my-animate-children-appear mb-56" v-auto-animate>
                 <!-- :class="{'!bg-primary/25' : item.bnu}"> -->
                 <li v-for="item in filteredShownHistory.slice().reverse()" :key="item.date"
-                    class="flex items-center gap-4 rounded-md odd:bg-gray-500/10 p-2 mb-2" >
+                    class="flex items-center gap-4 rounded-md odd:bg-gray-500/10 p-2 mb-2 transition-all duration-700" >
                     <UIcon @click="item.fav = !item.fav" name = "i-lucide-book-marked" 
                         :class="{'my-animation-pulse': item.fav, 'opacity-30': !item.fav}" />
                     <span class="basis-52 break-all flex-1">
                         {{ item.titre ?? item.insight }}
                     </span>
-                    <UChip v-if="item.bnu" class="bg-gray-700/30 rounded p-1">
+                    <UChip v-if="item.bnu" class="bg-slate-700/50 rounded p-1">
                         <NuxtImg src = "bnu-logo-white.svg" alt = "BNU" class="w-8 h-8" />
                     </UChip>
                     <NuxtLink :to="`/code/${item.isbn}`" class="text-primary underline truncate w-24 basis-10">
