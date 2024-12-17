@@ -86,7 +86,7 @@
     <div class="hidden">
       <UDivider label="Reconnaissance avec le backend" />
       <form @submit.prevent="handleSubmit" class="flex items-center gap-2" ref="backendForm"
-        action="https://aidons-backend.vercel.app/barcode" enctype="multipart/form-data" method="post">
+        action="http://10.31.9.35:5000/segmentation_ocr_dummy" enctype="multipart/form-data" method="post">
         <UInput name="file" type="file" accept="image/*" capture="environment" :loading="waitingBackend"
           @change="handleSubmit" class="p-1 m-1 bg-gray-300/25 rounded-md" />
       </form>
@@ -214,7 +214,7 @@ const backendForm = ref(null)
 const waitingBackend = ref(false)
 const handleSubmit = () => {
   waitingBackend.value = true
-  fetch('https://aidons-backend.vercel.app/barcode', {
+  fetch('http://10.31.9.35:5000/segmentation_ocr_dummy', {
     method: 'POST',
     body: new FormData(backendForm.value),
   })

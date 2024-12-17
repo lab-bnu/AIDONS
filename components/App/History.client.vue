@@ -75,7 +75,7 @@ const props = defineProps({
 
 <style scoped>
 
-
+/* Animation - ajout aux favoris */
 .my-animation-pulse {
     animation: pulse .3s ease;
   }
@@ -92,7 +92,7 @@ const props = defineProps({
     }
 }
 
-
+/* Animation - apparition des items de l'historique au scroll */
 @keyframes appear {
     from {
         opacity: 0;
