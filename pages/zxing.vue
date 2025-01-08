@@ -21,7 +21,7 @@ onMounted(async () => {
         try {
             const constraints = {
                 video: {
-                    facingMode: { exact: "environment" } // Forcer l'utilisation de la caméra arrière
+                    facingMode: { ideal: "environment" } // Forcer l'utilisation de la caméra arrière
                 }
             };
 

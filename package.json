@@ -26,6 +26,7 @@
     "@iconify-json/lucide": "1.2.22",
     "@nuxt/image": "1.9.0",
     "@nuxt/ui": "2.20.0",
+    "@zxing/library": "^0.21.3",
     "export-to-csv": "^1.4.0",
     "fast-xml-parser": "^4.5.1",
     "postcss-custom-properties": "^14.0.4",

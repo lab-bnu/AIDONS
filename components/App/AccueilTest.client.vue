@@ -30,6 +30,7 @@
     </div>
 
     <!-- <AppTestScan v-model="decodedText" :open-cam="!props.code" /> cam active par défaut sauf code en paramètre de l'url -->
+    <ScanZxing v-model="decodedText" /> 
     <ScanHtml5QrCode v-model="decodedText" /> <!-- cam active par défaut sauf code en paramètre de l'url -->
 
     <!-- Notice ppn obtenue à partir de l'ISBN - api sudoc -->
