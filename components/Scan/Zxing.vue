@@ -1,8 +1,5 @@
 <template>
-
     <video ref="video" width="600" height="400" style="border: 1px solid black;"></video>
-    <button id="salut" @click="codeReader.reset()"></button>
-
 </template>
 
 
