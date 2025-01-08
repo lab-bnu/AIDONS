@@ -26,24 +26,19 @@ const startCamera = async () => {
         }
     };
 
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    let stream = await navigator.mediaDevices.getUserMedia(constraints);
     video.value.srcObject = stream;
 
-    // codeReader.decodeFromVideoElement(video.value)
-    //     .then(result => { decoded.value = result.text; codeReader.reset(); })
-    //     .catch(err => console.error(err));
+    codeReader.decodeFromVideoElement(video.value)
+        .then(result => { decoded.value = result.text; 
+            codeReader.reset(); 
+            stream.getTracks().forEach(track => track.stop());
+            startCamera();
+            
 
-    codeReader.decodeFromVideoElement(video.value, (result, err) => {
-        if (result) {
-            decoded.value = result.text;
-            // Vous pouvez ajouter une logique ici pour gérer les scans multiples
-            console.log('Code scanné :', result.text);
-        }
-        // if (err && !(err instanceof ZXing.NotFoundException)) {
-        if (err ) {
-            console.error(err);
-        }
-    });
+        })
+        .catch(err => console.error(err));
+
 };
 
 
