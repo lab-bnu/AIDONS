@@ -17,4 +17,4 @@ useSeoMeta({
   ogImage: "https://lab-aidons.vercel.app/app.png",
 });
 
-</script>
+</script> 
