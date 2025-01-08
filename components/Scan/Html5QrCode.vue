@@ -1,9 +1,5 @@
 <template>
-    <div>
-        <div id="qr-code-full-region">    
-        </div>
-        <!-- <p>Résultat : {{ decoded }}</p> -->
-    </div>
+    <div id="qr-code-full-region"></div>
 </template>
 
 

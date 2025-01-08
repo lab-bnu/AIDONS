@@ -30,7 +30,7 @@ const startCamera = async () => {
     video.value.srcObject = stream;
 
     codeReader.decodeFromVideoElement(video.value)
-        .then(result => { decoded.value = result.text; })
+        .then(result => { decoded.value = result.text; codeReader.reset(); })
         .catch(err => console.error(err));
 };
 
