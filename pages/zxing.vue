@@ -31,7 +31,7 @@ onMounted(async () => {
 
             const codeReader = new ZXing.BrowserBarcodeReader();
             codeReader.decodeFromVideoElement(video)
-                .then(result => console.log(result))
+                .then(result => alert(result))
                 .catch(err => console.error(err));
         } catch (error) {
             console.error('Error accessing the camera:', error);
