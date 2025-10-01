@@ -12,19 +12,20 @@ const decoded = defineModel({
     default: ''
 })
 
-// mettre en place les hints
+// mettre en place les hints - scan seulement les codes barres EAN_13 pour les performances
 const hints = new Map();
 hints.set(BarcodeFormat.EAN_13, {})
 
 const video = ref(null);
 const codeReader = new BrowserBarcodeReader()
 
+const constraints = {
+    video: {
+        facingMode: { ideal: "environment" } // Utiliser la caméra arrière si disponible
+    }
+}
+
 const startCamera = async () => {
-    const constraints = {
-        video: {
-            facingMode: { ideal: "environment" } // Utiliser la caméra arrière si disponible
-        }
-    };
 
     let stream = await navigator.mediaDevices.getUserMedia(constraints);
     video.value.srcObject = stream;
@@ -34,14 +35,9 @@ const startCamera = async () => {
             codeReader.reset(); 
             stream.getTracks().forEach(track => track.stop());
             startCamera();
-            
-
         })
         .catch(err => console.error(err));
-
 };
-
-
 
 onMounted(() => {
     startCamera();

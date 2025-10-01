@@ -29,7 +29,9 @@
       </a>
     </div>
 
-    <AppTestScan v-model="decodedText" :open-cam="!props.code" /> <!-- cam active par défaut sauf code en paramètre de l'url -->
+    <ScanZxing v-model="decodedText" /> 
+    <!-- <AppTestScan v-model="decodedText" :open-cam="!props.code" /> cam active par défaut sauf code en paramètre de l'url -->
+    <!-- <ScanHtml5QrCode v-model="decodedText" /> cam active par défaut sauf code en paramètre de l'url -->
 
     <!-- Notice ppn obtenue à partir de l'ISBN - api sudoc -->
     <div>
@@ -83,10 +85,13 @@
       </a>
     </p>
 
+    <!-- Formulaire pour envoi au backend  -->
+    <!-- à mettre en place sur toybx -->
+    <!-- action="http://10.31.9.35:5000/segmentation_ocr_dummy" enctype="multipart/form-data" method="post"> -->
     <div class="hidden">
       <UDivider label="Reconnaissance avec le backend" />
       <form @submit.prevent="handleSubmit" class="flex items-center gap-2" ref="backendForm"
-        action="http://10.31.9.35:5000/segmentation_ocr_dummy" enctype="multipart/form-data" method="post">
+        action="https://aidons-backend.vercel.app/barcode" enctype="multipart/form-data" method="post">
         <UInput name="file" type="file" accept="image/*" capture="environment" :loading="waitingBackend"
           @change="handleSubmit" class="p-1 m-1 bg-gray-300/25 rounded-md" />
       </form>
@@ -214,7 +219,7 @@ const backendForm = ref(null)
 const waitingBackend = ref(false)
 const handleSubmit = () => {
   waitingBackend.value = true
-  fetch('http://10.31.9.35:5000/segmentation_ocr_dummy', {
+  fetch('https://aidons-backend.vercel.app/barcode', {
     method: 'POST',
     body: new FormData(backendForm.value),
   })
