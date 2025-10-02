@@ -15,7 +15,7 @@ Utilisation prévue sur un téléphone
 ## Features
 
 - Reconnaissance de code barres si disponible - streaming sur le téléphone.
-- Identification Date Auteur Titre avec l'IA si pas de code barre.
+- Identification Date Auteur Titre avec l'IA si pas de code barre - photo unique.
 - Requêtes aux apis pour vérifier la disponibilité - Sudoc, SRU, ...
 
 ## Roadmap
