@@ -1,50 +1,36 @@
-# Zooper
+# AIDONS
 
-Zooper is a beautiful personal portfolio template for developers, programmers, freelancers and designers.
+Aide à la gestion de dons pour les bibliothèques avec l'IA
 
-![Zooper template home preview](https://zooper.pages.dev/preview.jpg)
+[Démo en ligne pour la BNU](https://lab-aidons.vercel.app/)
 
+Utilisation d'un backend pour l'entrainement du modèle
+
+[Backend python](https://github.com/lab-bnu/AIDONS-backend)
+
+## Description
+Vérification de la disponibilité d'une oeuvre dans une bibliothèque.
+Utilisation prévue sur un téléphone
 
 ## Features
 
-Full features blog 📝.
-CMS ready 🚀.
-Super fast ⚡.
-SEO friendly 📈.
-Fully responsive 📱.
-Dark mode 🌗.
-Syntax highlighting 🌈.
-Social media links 🔗.
-Code preview playground 🎮.
-Uses page 🧑‍💻
-Bookmarks 📑.
+- Reconnaissance de code barres si disponible - streaming sur le téléphone.
+- Identification Date Auteur Titre avec l'IA si pas de code barre.
+- Requêtes aux apis pour vérifier la disponibilité - Sudoc, SRU, ...
 
 ## Roadmap
 
-Comments
-Tags
-Categories
-Pagination
-Sitemap
-RSS feeds
-Search
-Likes
+Lien avec le backend - Entrainement d'un modèle de reconaissance pour identifier les infos : Date Auteur Titre 
 
 ## Tech Stack
 
 1. Nuxt JS
 2. Tailwind CSS
 3. Vue
-4. Nuxt Content Module
-5. Shiki JS ES
 
 ## Installation
 
-1. `git clone` this repo or click on `Use this template` button.
-2. `cd` into the project directory.
-3. Run `yarn install` to install the dependencies.
-4. Run `yarn dev` to start the development server.
+1. `git clone`
+2. `cd` 
+3. `npm run dev` 
 
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
